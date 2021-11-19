@@ -5,11 +5,14 @@
   "source": "src/index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build",
+    "lint": "eslint --fix src/**/*.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "8.2.0",
+    "eslint-plugin-react": "7.27.0",
     "parcel": "2.0.1"
   },
   "dependencies": {
