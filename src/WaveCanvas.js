@@ -1,16 +1,5 @@
-import React, { useRef, useEffect, useCallback, useState } from "react";
-
-const useAnimationFrame = (callback) => {
-  const animationRef = useRef();
-  const animate = useCallback(() => {
-    callback();
-    animationRef.current = requestAnimationFrame(animate);
-  }, [callback]);
-  useEffect(() => {
-    animationRef.current = requestAnimationFrame(animate);
-    return () => animationRef.current && cancelAnimationFrame(animationRef.current);
-  }, [animate]);
-};
+import React, { useRef, useState } from "react";
+import useAnimationFrame from "./useAnimation";
 
 const WaveCanvas = () => {
   const cvs = useRef(null);
