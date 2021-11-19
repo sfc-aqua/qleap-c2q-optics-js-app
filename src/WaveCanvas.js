@@ -8,7 +8,7 @@ const WaveCanvas = () => {
     ctx.fill();
   }, [cvs]);
 
-  return <canvas width="640" height="480" ref={cvs}></canvas>
+  return <canvas width="640" height="480" ref={cvs}></canvas>;
 };
 
 export default WaveCanvas;
