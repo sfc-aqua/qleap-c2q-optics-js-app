@@ -1,12 +1,31 @@
-import React,{useRef, useEffect} from "react";
+import React, { useRef, useEffect, useCallback, useState } from "react";
+
+const useAnimationFrame = (callback) => {
+  const animationRef = useRef();
+  const animate = useCallback(() => {
+    callback();
+    animationRef.current = requestAnimationFrame(animate);
+  }, [callback]);
+  useEffect(() => {
+    animationRef.current = requestAnimationFrame(animate);
+    return () => animationRef.current && cancelAnimationFrame(animationRef.current);
+  }, [animate]);
+};
 
 const WaveCanvas = () => {
   const cvs = useRef(null);
-  useEffect(() => {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  useAnimationFrame(() => {
+    if (!cvs.current) return;
     const ctx = cvs.current.getContext("2d");
-    ctx.rect(0,0,40,40);
+    ctx.clearRect(0, 0, cvs.current.width, cvs.current.height);
+    ctx.beginPath();
+    ctx.rect(pos.x, pos.y, 40, 40);
+    ctx.closePath();
     ctx.fill();
-  }, [cvs]);
+    setPos(prev => ({ x: prev.x + 1, y: prev.y + 1 }));
+  });
 
   return <canvas width="640" height="480" ref={cvs}></canvas>;
 };
