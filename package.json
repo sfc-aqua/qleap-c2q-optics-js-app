@@ -6,6 +6,7 @@
   "scripts": {
     "start": "parcel",
     "build": "parcel build",
+    "build:prod": "NODE_ENV=production parcel build --no-source-maps --no-cache --public-url https://aqua.sfc.wide.ad.jp/qleap-c2q-optics-js-app",
     "lint": "eslint --fix src/**/*.js"
   },
   "author": "",
