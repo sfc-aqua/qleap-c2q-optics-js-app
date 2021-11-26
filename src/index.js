@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import useAnimation from "./useAnimat"
 import {FourierAnalysis, Blackbody, DoubleSlit, FourierAnalysis, Interferometry,Photoelectric, SternGerlach, Superposition} from "./pages";
 import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
 
