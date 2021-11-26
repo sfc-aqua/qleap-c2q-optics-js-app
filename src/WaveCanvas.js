@@ -1,9 +1,15 @@
 import React, { useRef, useState } from "react";
 import useAnimationFrame from "./useAnimation";
 
-const WaveCanvas = () => {
+
+
+
+const WaveCanvas = (amplitude) => {
   const cvs = useRef(null);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
+  //const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [pos, setPos] = useState({
+    
+  });
 
   useAnimationFrame(() => {
     if (!cvs.current) return;
@@ -16,7 +22,9 @@ const WaveCanvas = () => {
     setPos(prev => ({ x: prev.x + 1, y: prev.y + 1 }));
   });
 
-  return <canvas width="640" height="480" ref={cvs}></canvas>;
+  return <canvas width="640" height="480" onMouseDown={(e)=>{
+    const [x,y] = getElementPosition(this,e);
+  }} ref={cvs}></canvas>;
 };
 
 export default WaveCanvas;
