@@ -30,7 +30,7 @@ const LINKS = {
 const App = () => {
   return <div>
     <Router>
-      <Link to="/"><h1>Hello React</h1></Link>
+      <Link to="/"><h1>CtoQ apps</h1></Link>
       <Routes>
         {Object.entries(LINKS).map(([path, Element]) => <Route key={path} path={path} element={<Element />} />)}
       </Routes>
