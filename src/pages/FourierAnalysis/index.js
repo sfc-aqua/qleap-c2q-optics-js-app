@@ -14,7 +14,6 @@ const FourierAnalysis = () => {
   // the constructed main wave
   const [waveForm, setWaveForm] = useState(new WaveForm(PRESETS[INITIAL_WAVE_FORM_NAME]()));
   const [size, setSize] = useState([640, 400]);
-
   return <div>
     <h1>Fourier Analysis</h1>
     <div>
