@@ -30,10 +30,6 @@ export const PRESETS = {
       points:arr,
       degree:50
     };
-    /*return {
-      points:[1,-1,1,-1,1,-1],
-      degree:13
-    };*/
   },
   "Sawtooth": ()=>{
     const arr = [];
@@ -68,7 +64,6 @@ export const PRESETS = {
   "AQUA": () => {
     //temp canvas to trace the letters
     const canvas = document.createElement("canvas");
-    //document.body.appendChild(canvas);
     const width = 1500;
     canvas.width = width;
     canvas.height = width*100/500;

@@ -81,8 +81,6 @@ class WaveForm {
     for (let i = 0; i < this.degree; i++) {
       harmonics.push(this.computeNthTerm(i));
     }
-    console.log(this.points);
-    console.log(harmonics);
     this.harmonics = harmonics;
     return harmonics;
   }
