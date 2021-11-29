@@ -22,6 +22,11 @@ const FourierAnalysis = () => {
     </div>
     <WaveSelector options={PRESETS} setWaveForm={setWaveForm} />
     <WaveCanvas mode={mode} waveForm={waveForm} size={size} />
+    <style jsx>{`
+      h1 {
+        color:#6787ff;
+      }
+    `}</style>
   </div>;
 };
 
