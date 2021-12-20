@@ -7,13 +7,14 @@
     "start": "parcel",
     "build": "parcel build",
     "build:prod": "NODE_ENV=production parcel build --no-source-maps --no-cache --public-url https://aqua.sfc.wide.ad.jp/qleap-c2q-optics-js-app",
-    "lint": "eslint --fix src/**/*.js"
+    "lint": "eslint --fix \"src/**/*.js\""
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "eslint": "8.2.0",
-    "eslint-plugin-react": "7.27.0",
+    "eslint-config-airbnb": "19.0.2",
+    "eslint-plugin-react": "7.27.1",
     "parcel": "2.0.1"
   },
   "dependencies": {

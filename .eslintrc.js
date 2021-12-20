@@ -1,43 +1,45 @@
 module.exports = {
-  "env": {
-    "browser": true,
-    "es2021": true
+  env: {
+    browser: true,
+    es2021: true,
   },
-  "extends": [
+  extends: [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "airbnb",
+    "airbnb/hooks",
   ],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
     },
-    "ecmaVersion": 13,
-    "sourceType": "module"
+    ecmaVersion: 13,
+    sourceType: "module",
   },
-  "plugins": [
-    "react"
-  ],
-  "rules": {
-    "indent": [
+  plugins: ["react"],
+  rules: {
+    indent: ["error", 2],
+    "linebreak-style": ["error", "unix"],
+    quotes: ["error", "double"],
+    semi: ["error", "always"],
+    "react/jsx-filename-extension": ["off"],
+    "func-names": ["error", "as-needed"],
+    "react/function-component-definition": [
       "error",
-      2
+      {
+        namedComponents: "function-declaration",
+        unnamedComponents: "arrow-function",
+      },
     ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "double"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ]
+    "no-plusplus": ["off"],
+    "react/prop-types": ["warn"],
+    "no-unused-vars": ["error", { varsIgnorePattern: "_" }],
+    "jsx-a11y/label-has-associated-control": ["warn"],
   },
-  "settings": {
-    "react": {
-      "version": "detect",
-    }
-  }
+  settings: {
+    react: {
+      version: "detect",
+    },
+    "import/core-modules": ["styled-jsx/css"],
+  },
 };
