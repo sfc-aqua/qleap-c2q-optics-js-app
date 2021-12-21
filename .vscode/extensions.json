@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "ms-vsliveshare.vsliveshare-pack",
+        "editorconfig.editorconfig",
+        "dbaeumer.vscode-eslint"
+    ]
+}
