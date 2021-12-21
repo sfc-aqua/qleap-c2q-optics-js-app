@@ -5,6 +5,8 @@ import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 const Index = () => {
   return <ul>
+    <p>I edit here!</p>
+    <p>I also edit here!</p>
     <li><Link to="fourier">Fourier Analysis</Link></li>
     <li><Link to="superposition">Superposition of Traveling Waves</Link></li>
     <li><Link to="double-slit">Double-Slit Experiment (or Michelson interferometer)</Link></li>
