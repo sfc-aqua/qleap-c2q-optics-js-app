@@ -5,7 +5,6 @@ function Interferometry() {
 
   function handleSliderChange(e) {
     setRefractionIndex(e.target.value);
-    console.log(e.target.value);
   }
   return (
     <div>
