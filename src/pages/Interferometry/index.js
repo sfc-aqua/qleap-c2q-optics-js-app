@@ -85,26 +85,26 @@ function MachZehnderCanvas({ size: [width, height], refractionIndex }) {
     const lbw = 2; // light beam width
 
     // from light source to splitter 1
-    for (let _y = splitter1.y; _y < source.y; _y++) {
-      ctx.fillRect(amp * Math.sin(k * _y * refractionIndex) + source.x, _y, lbw, lbw);
+    for (let posY = splitter1.y; posY < source.y; posY++) {
+      ctx.fillRect(amp * Math.sin(k * posY * refractionIndex) + source.x, posY, lbw, lbw);
     }
     // x-axis waves
-    for (let _x = mirror1.x; _x < mirror2.x; _x++) {
-      ctx.fillRect(_x, amp * Math.sin(k * _x * refractionIndex) + splitter1.y, lbw, lbw);
-      ctx.fillRect(_x, amp * Math.sin(k * _x * refractionIndex) + splitter2.y, lbw, lbw);
+    for (let posX = mirror1.x; posX < mirror2.x; posX++) {
+      ctx.fillRect(posX, amp * Math.sin(k * posX * refractionIndex) + splitter1.y, lbw, lbw);
+      ctx.fillRect(posX, amp * Math.sin(k * posX * refractionIndex) + splitter2.y, lbw, lbw);
     }
     // x-axis: splitter to detector
-    for (let _x = splitter2.x; _x < 350; _x++) {
-      ctx.fillRect(_x, amp * Math.sin(k * _x * refractionIndex) + splitter2.y, lbw, lbw);
+    for (let posX = splitter2.x; posX < 350; posX++) {
+      ctx.fillRect(posX, amp * Math.sin(k * posX * refractionIndex) + splitter2.y, lbw, lbw);
     }
     // y-axis waves
-    for (let _y = splitter2.y; _y < splitter1.y; _y++) {
-      ctx.fillRect(amp * Math.sin(k * _y * refractionIndex) + splitter1.x, _y, lbw, lbw);
-      ctx.fillRect(amp * Math.sin(k * _y * refractionIndex) + splitter2.x, _y, lbw, lbw);
+    for (let posY = splitter2.y; posY < splitter1.y; posY++) {
+      ctx.fillRect(amp * Math.sin(k * posY * refractionIndex) + splitter1.x, posY, lbw, lbw);
+      ctx.fillRect(amp * Math.sin(k * posY * refractionIndex) + splitter2.x, posY, lbw, lbw);
     }
     // y-axis waves: splitter to detector
-    for (let _y = 50; _y < splitter2.y; _y++) {
-      ctx.fillRect(amp * Math.sin(k * _y * refractionIndex) + splitter2.x, _y, lbw, lbw);
+    for (let posY = 50; posY < splitter2.y; posY++) {
+      ctx.fillRect(amp * Math.sin(k * posY * refractionIndex) + splitter2.x, posY, lbw, lbw);
     }
   });
   return (
