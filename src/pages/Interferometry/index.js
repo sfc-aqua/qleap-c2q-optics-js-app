@@ -2,73 +2,75 @@ import React, { useRef, useState } from "react";
 import useAnimationFrame from "../../useAnimation";
 
 class Rect {
-  constructor(x,y,w=50,h=50) {
+  constructor(x, y, w = 50, h = 50) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
   }
+
   draw(ctx) {
-    // adjust position as a center point of rectangle
-    ctx.strokeRect(this.x-this.w/2, this.y, this.w, this.h);
+    // adjust position as a center top of rectangle
+    ctx.strokeRect(this.x - 0.5 * this.w, this.y, this.w, this.h);
   }
 }
 
 class Splitter extends Rect {
-  constructor(x,y, angle=0){
-    super(x,y);
+  constructor(x, y, angle = 0) {
+    super(x, y);
     this.angle = angle;
-    this.w = 50; 
+    this.radian = this.angle * (Math.PI / 180);
+    this.w = 50;
     this.h = 5;
   }
+
   draw(ctx) {
     ctx.save();
-    ctx.translate(this.x ,this.y);
-    ctx.rotate(this.angle * Math.PI/180);
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.radian);
     // adjust position as a center top of rectangle
-    ctx.strokeRect(-this.w/2, -3*this.h, this.w, 3*this.h);
-    ctx.fillRect(-this.w/2, 0, this.w, this.h);
+    ctx.strokeRect(-0.5 * this.w, -3 * this.h, this.w, 3 * this.h);
+    ctx.fillRect(-0.5 * this.w, 0, this.w, this.h);
     ctx.restore();
   }
 }
 class Mirror extends Rect {
-  constructor(x,y, angle=0){
-    super(x,y);
+  constructor(x, y, angle = 0) {
+    super(x, y);
     this.angle = angle;
-    this.w = 50; 
+    this.radian = this.angle * (Math.PI / 180);
+    this.w = 50;
     this.h = 5;
   }
+
   draw(ctx) {
     ctx.save();
-    ctx.translate(this.x ,this.y);
-    ctx.rotate(this.angle * Math.PI/180);
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.radian);
     // adjust position as a center top of rectangle
-    ctx.strokeRect(-this.w/2, -this.h, this.w, this.h);
-    ctx.fillRect(-this.w/2, 0, this.w, 2*this.h);
+    ctx.strokeRect(-0.5 * this.w, -this.h, this.w, this.h);
+    ctx.fillRect(-0.5 * this.w, 0, this.w, 2 * this.h);
     ctx.restore();
   }
 }
 
-source = new Rect(50,450);
+const source = new Rect(50, 450);
 
-splitter1 = new Splitter(50,350, 135);
-splitter2 = new Splitter(250,150, 135);
+const splitter1 = new Splitter(50, 350, 135);
+const splitter2 = new Splitter(250, 150, 135);
 
-mirror1 = new Mirror(50,150, 135);
-mirror2 = new Mirror(250,350, -45);
+const mirror1 = new Mirror(50, 150, 135);
+const mirror2 = new Mirror(250, 350, -45);
 
-// detector1 = new Detector(250, 100);
-// detector2 = new Detector();
-
-function MachZehnderCanvas({size: [width, height], refractionIndex}) {
+function MachZehnderCanvas({ size: [width, height], refractionIndex }) {
   const cvs = useRef(null);
 
   useAnimationFrame(() => {
     if (!cvs.current) return;
-    const {height, width} = cvs.current;
     const ctx = cvs.current.getContext("2d");
-    
     ctx.clearRect(0, 0, width, height);
+
+    // show objects
     source.draw(ctx);
     splitter1.draw(ctx);
     splitter2.draw(ctx);
@@ -76,21 +78,43 @@ function MachZehnderCanvas({size: [width, height], refractionIndex}) {
     mirror1.draw(ctx);
     mirror2.draw(ctx);
 
-    // continuos wave from light source to splitter 1
-    for (y = splitter1.y; y < source.y; y++) {
-      ctx.fillRect(5*Math.sin(y * 0.2 * refractionIndex) + source.x, y, 2, 2);
+    // show wave propagation
+    // wave properties
+    const amp = 2; // amplitude
+    const k = 0.2; // wave number
+    const lbw = 2; // light beam width
+
+    // from light source to splitter 1
+    for (let _y = splitter1.y; _y < source.y; _y++) {
+      ctx.fillRect(amp * Math.sin(k * _y * refractionIndex) + source.x, _y, lbw, lbw);
     }
-    // splitter 1 to mirror 1
-    for (x = mirror1.x; x < mirror2.x; x++) {
-      ctx.fillRect(x, 5*Math.sin(x * 0.2 * refractionIndex) + splitter1.y, 2, 2);
-      ctx.fillRect(x, 5*Math.sin(x * 0.2 * refractionIndex) + splitter2.y, 2, 2);
+    // x-axis waves
+    for (let _x = mirror1.x; _x < mirror2.x; _x++) {
+      ctx.fillRect(_x, amp * Math.sin(k * _x * refractionIndex) + splitter1.y, lbw, lbw);
+      ctx.fillRect(_x, amp * Math.sin(k * _x * refractionIndex) + splitter2.y, lbw, lbw);
     }
-    for (y = splitter2.y; y < splitter1.y; y++) {
-      ctx.fillRect(5*Math.sin(y * 0.2 * refractionIndex) + splitter1.x, y, 2, 2);
-      ctx.fillRect(5*Math.sin(y * 0.2 * refractionIndex) + splitter2.x, y, 2, 2);
+    // x-axis: splitter to detector
+    for (let _x = splitter2.x; _x < 350; _x++) {
+      ctx.fillRect(_x, amp * Math.sin(k * _x * refractionIndex) + splitter2.y, lbw, lbw);
+    }
+    // y-axis waves
+    for (let _y = splitter2.y; _y < splitter1.y; _y++) {
+      ctx.fillRect(amp * Math.sin(k * _y * refractionIndex) + splitter1.x, _y, lbw, lbw);
+      ctx.fillRect(amp * Math.sin(k * _y * refractionIndex) + splitter2.x, _y, lbw, lbw);
+    }
+    // y-axis waves: splitter to detector
+    for (let _y = 50; _y < splitter2.y; _y++) {
+      ctx.fillRect(amp * Math.sin(k * _y * refractionIndex) + splitter2.x, _y, lbw, lbw);
     }
   });
-  return <canvas width={width} height={height} ref={cvs} style={{border: "solid 1px red"}} />
+  return (
+    <canvas
+      width={width}
+      height={height}
+      ref={cvs}
+      style={{ border: "solid 1px red" }}
+    />
+  );
 }
 
 function Interferometry() {
