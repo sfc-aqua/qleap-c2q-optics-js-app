@@ -1,66 +1,41 @@
 import React, { useRef, useState } from "react";
 import useAnimationFrame from "../../useAnimation";
 
-class Rect {
-  constructor(x, y, w = 50, h = 50) {
+class DoubleRect {
+  constructor(x, y, w = 50, h = 50, angle = 0, strokeRatio = 0, fillRatio = 1) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
-  }
-
-  draw(ctx) {
-    // adjust position as a center top of rectangle
-    ctx.strokeRect(this.x - 0.5 * this.w, this.y, this.w, this.h);
-  }
-}
-
-class Splitter extends Rect {
-  constructor(x, y, angle = 0) {
-    super(x, y);
     this.angle = angle;
     this.radian = this.angle * (Math.PI / 180);
-    this.w = 50;
-    this.h = 5;
+    this.strokeRatio = strokeRatio;
+    this.fillRatio = fillRatio;
   }
 
   draw(ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.rotate(this.radian);
-    // adjust position as a center top of rectangle
-    ctx.strokeRect(-0.5 * this.w, -3 * this.h, this.w, 3 * this.h);
-    ctx.fillRect(-0.5 * this.w, 0, this.w, this.h);
-    ctx.restore();
-  }
-}
-class Mirror extends Rect {
-  constructor(x, y, angle = 0) {
-    super(x, y);
-    this.angle = angle;
-    this.radian = this.angle * (Math.PI / 180);
-    this.w = 50;
-    this.h = 5;
-  }
-
-  draw(ctx) {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.radian);
-    // adjust position as a center top of rectangle
-    ctx.strokeRect(-0.5 * this.w, -this.h, this.w, this.h);
-    ctx.fillRect(-0.5 * this.w, 0, this.w, 2 * this.h);
+    // adjust position as a center top of filled rectangle
+    ctx.strokeRect(
+      -0.5 * this.w,
+      this.h - this.fillRatio * this.h,
+      this.w,
+      -this.strokeRatio * this.h,
+    );
+    ctx.fillRect(-0.5 * this.w, 0, this.w, this.fillRatio * this.h);
     ctx.restore();
   }
 }
 
-const source = new Rect(50, 450);
+const source = new DoubleRect(50, 450, 50, 50, 0, 0, 1);
 
-const splitter1 = new Splitter(50, 350, 135);
-const splitter2 = new Splitter(250, 150, 135);
+const splitter1 = new DoubleRect(50, 350, 50, 10, 135, 2, 1);
+const splitter2 = new DoubleRect(250, 150, 50, 10, 135, 2, 1);
 
-const mirror1 = new Mirror(50, 150, 135);
-const mirror2 = new Mirror(250, 350, -45);
+const mirror1 = new DoubleRect(50, 150, 50, 10, 135, 1, 1);
+const mirror2 = new DoubleRect(250, 350, 50, 10, -45, 1, 1);
 
 function MachZehnderCanvas({ size: [width, height], refractionIndex }) {
   const cvs = useRef(null);
