@@ -20,22 +20,27 @@ class DoubleRect {
     // adjust position as a center top of filled rectangle
     ctx.strokeRect(
       -0.5 * this.w,
-      this.h - this.fillRatio * this.h,
+      0,
       this.w,
       -this.strokeRatio * this.h,
     );
-    ctx.fillRect(-0.5 * this.w, 0, this.w, this.fillRatio * this.h);
+    ctx.fillRect(
+      -0.5 * this.w,
+      0,
+      this.w,
+      this.fillRatio * this.h,
+    );
     ctx.restore();
   }
 }
 
 const source = new DoubleRect(50, 450, 50, 50, 0, 0, 1);
 
-const splitter1 = new DoubleRect(50, 350, 50, 10, 135, 2, 1);
-const splitter2 = new DoubleRect(250, 150, 50, 10, 135, 2, 1);
+const splitter1 = new DoubleRect(50, 350, 50, 5, 135, 2, 1);
+const splitter2 = new DoubleRect(250, 150, 50, 5, 135, 2, 1);
 
-const mirror1 = new DoubleRect(50, 150, 50, 10, 135, 1, 1);
-const mirror2 = new DoubleRect(250, 350, 50, 10, -45, 1, 1);
+const mirror1 = new DoubleRect(50, 150, 50, 5, 135, 1, 2);
+const mirror2 = new DoubleRect(250, 350, 50, 5, -45, 1, 2);
 
 function MachZehnderCanvas({ size: [width, height], refractionIndex }) {
   const cvs = useRef(null);
@@ -52,6 +57,8 @@ function MachZehnderCanvas({ size: [width, height], refractionIndex }) {
 
     mirror1.draw(ctx);
     mirror2.draw(ctx);
+
+
 
     // show wave propagation
     // wave properties
