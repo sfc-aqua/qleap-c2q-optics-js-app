@@ -42,6 +42,8 @@ const splitter2 = new DoubleRect(250, 150, 50, 5, 135, 2, 1);
 const mirror1 = new DoubleRect(50, 150, 50, 5, 135, 1, 2);
 const mirror2 = new DoubleRect(250, 350, 50, 5, -45, 1, 2);
 
+const sample = new DoubleRect(50, 250, 50, -30, 0, 1, 0);
+
 function MachZehnderCanvas({ size: [width, height], refractionIndex }) {
   const cvs = useRef(null);
 
@@ -67,23 +69,24 @@ function MachZehnderCanvas({ size: [width, height], refractionIndex }) {
     // from light source to splitter 1
     for (let posY = splitter1.y; posY < source.y; posY++) {
       ctx.fillRect(
-        amplitude * Math.sin(waveNumberK * posY * refractionIndex) + source.x,
+        amplitude * Math.sin(waveNumberK * posY) + source.x,
         posY,
         lightBeamWidht,
         lightBeamWidht,
       );
     }
+
     // x-axis waves
     for (let posX = mirror1.x; posX < mirror2.x; posX++) {
       ctx.fillRect(
         posX,
-        amplitude * Math.sin(waveNumberK * posX * refractionIndex) + splitter1.y,
+        amplitude * Math.sin(waveNumberK * posX) + splitter1.y,
         lightBeamWidht,
         lightBeamWidht,
       );
       ctx.fillRect(
         posX,
-        amplitude * Math.sin(waveNumberK * posX * refractionIndex) + splitter2.y,
+        amplitude * Math.sin(waveNumberK * posX) + splitter2.y,
         lightBeamWidht,
         lightBeamWidht,
       );
@@ -92,7 +95,7 @@ function MachZehnderCanvas({ size: [width, height], refractionIndex }) {
     for (let posX = splitter2.x; posX < 350; posX++) {
       ctx.fillRect(
         posX,
-        amplitude * Math.sin(waveNumberK * posX * refractionIndex) + splitter2.y,
+        amplitude * Math.sin(waveNumberK * posX) + splitter2.y,
         lightBeamWidht,
         lightBeamWidht,
       );
@@ -100,13 +103,13 @@ function MachZehnderCanvas({ size: [width, height], refractionIndex }) {
     // y-axis waves
     for (let posY = splitter2.y; posY < splitter1.y; posY++) {
       ctx.fillRect(
-        amplitude * Math.sin(waveNumberK * posY * refractionIndex) + splitter1.x,
+        amplitude * Math.sin(waveNumberK * posY) + splitter1.x,
         posY,
         lightBeamWidht,
         lightBeamWidht,
       );
       ctx.fillRect(
-        amplitude * Math.sin(waveNumberK * posY * refractionIndex) + splitter2.x,
+        amplitude * Math.sin(waveNumberK * posY) + splitter2.x,
         posY,
         lightBeamWidht,
         lightBeamWidht,
@@ -115,7 +118,20 @@ function MachZehnderCanvas({ size: [width, height], refractionIndex }) {
     // y-axis waves: splitter to detector
     for (let posY = 50; posY < splitter2.y; posY++) {
       ctx.fillRect(
-        amplitude * Math.sin(waveNumberK * posY * refractionIndex) + splitter2.x,
+        amplitude * Math.sin(waveNumberK * posY) + splitter2.x,
+        posY,
+        lightBeamWidht,
+        lightBeamWidht,
+      );
+    }
+
+    // sample which changes speed of light inside corresponding to the refractive index
+    ctx.clearRect(sample.x - sample.w / 2, sample.y, sample.w, -sample.h);
+    sample.draw(ctx);
+    // y-axis waves: inside sample
+    for (let posY = sample.y; posY < sample.y - sample.h; posY++) {
+      ctx.fillRect(
+        amplitude * Math.sin(waveNumberK * posY * refractionIndex) + sample.x,
         posY,
         lightBeamWidht,
         lightBeamWidht,
