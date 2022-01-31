@@ -5,7 +5,7 @@ function Interferometry() {
   const [refractionIndex, setRefractionIndex] = useState(1);
 
   function handleSliderChange(e) {
-    setRefractionIndex(e.target.value);
+    setRefractionIndex(Number(e.target.value));
   }
   return (
     <div>
