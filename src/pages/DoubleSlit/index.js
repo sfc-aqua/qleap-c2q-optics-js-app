@@ -60,8 +60,6 @@ function DoubleSlit() {
         <input type="range" id="a" name="a" min="1" max="5" step="1" value={A} onChange={handleSliderChangeA}></input>
         {A}
       </div>
-      <Hello name={"zigen"} age={28}/>
-      <Counter />
     </div>
   );
 }
