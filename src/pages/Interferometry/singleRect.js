@@ -9,13 +9,13 @@ class SingleRect {
     this.name = name;
   }
 
-  draw(ctx) {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.radian);
+  draw(context) {
+    context.save();
+    context.translate(this.x, this.y);
+    context.rotate(this.radian);
     // adjust position as a center top of filled rectangle
-    ctx.fillRect(-0.5 * this.w, 0, this.w, this.h);
-    ctx.restore();
+    context.fillRect(-0.5 * this.w, 0, this.w, this.h);
+    context.restore();
   }
 }
 
