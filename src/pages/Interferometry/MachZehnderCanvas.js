@@ -13,16 +13,16 @@ function MachZehnderCanvas({ size: { width, height }, refractionIndex }) {
     const ctx = cvs.current.getContext("2d");
     ctx.clearRect(0, 0, width, height);
 
-    const source = new SingleRect(0.1 * width, 0.75 * height, 50, 50, 45);
+    const source = new SingleRect(0.1 * width, 0.75 * height, 50, 50, 45, 'Photon Source');
 
-    const bs1 = new DoubleRect(0.3 * width, 0.5 * height, 100, 5, 180, 2, 1);
-    const bs2 = new DoubleRect(0.7 * width, 0.5 * height, 100, 5, 0, 2, 1);
+    const bs1 = new DoubleRect(0.3 * width, 0.5 * height, 100, 5, 180, 2, 1, 'BS1');
+    const bs2 = new DoubleRect(0.7 * width, 0.5 * height, 100, 5, 0, 2, 1, 'BS2');
 
-    const mirror1 = new DoubleRect(0.5 * width, 0.25 * height, 100, 5, 180, 1, 2);
-    const mirror2 = new DoubleRect(0.5 * width, 0.75 * height, 100, 5, 0, 1, 2);
+    const mirror1 = new DoubleRect(0.5 * width, 0.25 * height, 100, 5, 180, 1, 2, 'mirror');
+    const mirror2 = new DoubleRect(0.5 * width, 0.75 * height, 100, 5, 0, 1, 2, 'mirror');
 
-    const detector0 = new SingleRect(0.9 * width, 0.25 * height, 50, 50, -135);
-    const detector1 = new SingleRect(0.9 * width, 0.75 * height, 50, 50, -45);
+    const detector0 = new SingleRect(0.9 * width, 0.25 * height, 50, 50, -135, 'D0');
+    const detector1 = new SingleRect(0.9 * width, 0.75 * height, 50, 50, -45, 'D1');
 
     const sample = new DoubleRect(50, 250, 50, -30, 0, 1, 0);
 

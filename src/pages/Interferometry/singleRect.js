@@ -1,11 +1,12 @@
 class SingleRect {
-    constructor(x, y, w = 50, h = 50, angle = 0) {
+    constructor(x, y, w = 50, h = 50, angle = 0, name) {
       this.x = x;
       this.y = y;
       this.w = w;
       this.h = h;
       this.angle = angle;
       this.radian = this.angle * (Math.PI / 180);
+      this.name = name
     }
   
     draw(ctx) {
