@@ -1,5 +1,5 @@
 class DoubleRect {
-  constructor(x, y, w = 50, h = 50, angle = 0, strokeRatio = 0, fillRatio = 1, name) {
+  constructor(x, y, w = 50, h = 50, angle = 0, strokeRatio = 0, fillRatio = 1, name = null) {
     this.x = x;
     this.y = y;
     this.w = w;
@@ -8,7 +8,7 @@ class DoubleRect {
     this.radian = this.angle * (Math.PI / 180);
     this.strokeRatio = strokeRatio;
     this.fillRatio = fillRatio;
-    this.name = name
+    this.name = name;
   }
 
   draw(ctx) {
