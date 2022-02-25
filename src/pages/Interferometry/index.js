@@ -4,9 +4,9 @@ import MachZehnderCanvas from "./MachZehnderCanvas";
 
 function Interferometry() {
   const [angle, setAngle] = useState(0);
-  function handleSliderChange(e) {
+  const handleSliderChange = (e) => {
     setAngle(Number(e.target.value));
-  }
+  };
 
   return (
     <div>
