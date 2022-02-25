@@ -3,14 +3,15 @@ import PropTypes from "prop-types";
 import useAnimationFrame from "../../useAnimation";
 import MachZehnderEquipment from "./MachZehnderEquipment";
 
+const equipment = new MachZehnderEquipment(
+  100,
+  100,
+  400,
+  400,
+);
+
 function MachZehnderCanvas({ size: { width, height } }) {
   const cvs = useRef(null);
-  const equipment = new MachZehnderEquipment(
-    100,
-    100,
-    400,
-    400,
-  );
   useAnimationFrame(() => {
     if (!cvs.current) return;
     const ctx = cvs.current.getContext("2d");
