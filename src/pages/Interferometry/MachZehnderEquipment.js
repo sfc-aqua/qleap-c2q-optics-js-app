@@ -14,8 +14,8 @@ const drawThePhotonPath = (context, originObj, destinationObj, lineWidth = 1) =>
 };
 
 class MachZehnderEquipment {
-  constructor(context, posX, posY, width, height) {
-    this.context = context;
+  constructor(posX, posY, width, height) {
+    this.context;
     this.posX = posX;
     this.posY = posY;
     this.width = width;
@@ -30,7 +30,8 @@ class MachZehnderEquipment {
     this.detector1 = new SingleRect("D1");
   }
 
-  draw() {
+  draw(context) {
+    this.context = context;
     this.context.save();
     this.context.translate(this.posX, this.posY);
     // const sample = new DoubleRect(50, 250, 50, -30, 0, 1, 0);

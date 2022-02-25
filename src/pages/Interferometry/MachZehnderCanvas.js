@@ -5,20 +5,18 @@ import MachZehnderEquipment from "./MachZehnderEquipment";
 
 function MachZehnderCanvas({ size: { width, height } }) {
   const cvs = useRef(null);
-
+  const equipment = new MachZehnderEquipment(
+    100,
+    100,
+    400,
+    400,
+  );
   useAnimationFrame(() => {
     if (!cvs.current) return;
     const ctx = cvs.current.getContext("2d");
     ctx.clearRect(0, 0, width, height);
 
-    const equipment = new MachZehnderEquipment(
-      ctx,
-      100,
-      100,
-      400,
-      400,
-    );
-    equipment.draw();
+    equipment.draw(ctx);
   });
   return (
     <canvas
