@@ -1,29 +1,22 @@
 import React, { useState } from "react";
+import AngleSlider from "./AngleSlider";
 import MachZehnderCanvas from "./MachZehnderCanvas";
 
 function Interferometry() {
-  const [refractionIndex, setRefractionIndex] = useState(1);
-
+  const [angle, setAngle] = useState(0);
   function handleSliderChange(e) {
-    setRefractionIndex(Number(e.target.value));
+    setAngle(Number(e.target.value));
   }
+
   return (
     <div>
       <h1>Interferometry</h1>
       <div className="refractionInput">
         <h2>Refraction index</h2>
-        <input
-          type="range"
-          name="reflective index"
-          min="1"
-          max="2.5"
-          step="0.1"
-          value={refractionIndex}
-          onChange={handleSliderChange}
-        />
-        <h1>{refractionIndex}</h1>
+        <AngleSlider inputValue={angle} onChange={handleSliderChange} />
+        <h1>{angle * Math.PI * 0.05}</h1>
       </div>
-      <MachZehnderCanvas size={{ width: 500, height: 500 }} refractionIndex={refractionIndex} />
+      <MachZehnderCanvas size={{ width: 800, height: 600 }} />
     </div>
   );
 }
