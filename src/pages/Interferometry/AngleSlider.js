@@ -1,4 +1,6 @@
-function AngleSlider({ inputValue, onChange }) {
+import React from "react";
+
+function AngleSlider({ angle, onChange }) {
   return (
     <div>
       0
@@ -8,7 +10,7 @@ function AngleSlider({ inputValue, onChange }) {
         min="0"
         max="40"
         step="1"
-        value={inputValue}
+        value={angle}
         onChange={onChange}
         list="tickmarks"
       />
