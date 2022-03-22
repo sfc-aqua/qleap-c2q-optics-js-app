@@ -90,7 +90,7 @@ class MachZehnderEquipment {
       this.source.posX,
       this.source.posY,
       10,
-      1,
+      5,
     );
   }
 
@@ -118,12 +118,12 @@ class MachZehnderEquipment {
   fire(context) {
     this.photon.moveTo(context, this.bs1, this.mirror0, this.bs2, this.detector0);
     if (this.photon.posX > this.detector0.posX && this.photon.posY < this.detector0.posY) {
-      context.fillRect(this.photon.posX-60, this.photon.posY, 30, 5);
-      context.fillRect(this.photon.posX, this.photon.posY+30, 5, 30);
+      context.fillRect(this.detector0.posX-60, this.detector0.posY, 30, 5);
+      context.fillRect(this.detector0.posX, this.detector0.posY+30, 5, 30);
     }
     if (this.photon.posX > this.detector1.posX && this.photon.posY > this.detector1.posY) {
-      context.fillRect(this.photon.posX-60, this.photon.posY, 30, 5);
-      context.fillRect(this.photon.posX, this.photon.posY-60, 5, 30);
+      context.fillRect(this.detector1.posX-60, this.detector1.posY, 30, 5);
+      context.fillRect(this.detector1.posX, this.detector1.posY-60, 5, 30);
     }
   }
 }
