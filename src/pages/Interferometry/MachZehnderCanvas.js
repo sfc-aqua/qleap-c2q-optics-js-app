@@ -10,15 +10,18 @@ const equipment = new MachZehnderEquipment(
   400,
 );
 
-function MachZehnderCanvas({ size: { width, height } }) {
+function MachZehnderCanvas({ size: { width, height }, photonFire }) {
   const cvs = useRef(null);
   useAnimationFrame(() => {
     if (!cvs.current) return;
     const ctx = cvs.current.getContext("2d");
     ctx.clearRect(0, 0, width, height);
     equipment.draw(ctx);
-    equipment.fire(ctx, equipment.mirror0);
-    // photon.moveTo(ctx, width, height);
+    if (photonFire) {
+      equipment.fire(ctx);
+    } else {
+      equipment.photon.initialize();
+    }
   });
   return (
     <canvas
@@ -27,6 +30,7 @@ function MachZehnderCanvas({ size: { width, height } }) {
       ref={cvs}
       style={{ border: "solid 1px red" }}
     />
+
   );
 }
 MachZehnderCanvas.propTypes = {

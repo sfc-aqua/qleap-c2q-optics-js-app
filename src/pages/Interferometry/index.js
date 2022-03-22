@@ -7,6 +7,10 @@ function Interferometry() {
   const handleSliderChange = (e) => {
     setAngle(Number(e.target.value));
   };
+  const [fire, setFire] = useState(false);
+  const firePhoton = () => {
+    setFire(!fire);
+  };
 
   return (
     <div>
@@ -16,7 +20,8 @@ function Interferometry() {
         <AngleSlider angle={angle} onChange={handleSliderChange} />
         <h1>{angle * Math.PI * 0.05}</h1>
       </div>
-      <MachZehnderCanvas size={{ width: 800, height: 600 }} />
+      <MachZehnderCanvas size={{ width: 800, height: 600 }} photonFire={fire} />
+      <button type="button" onClick={firePhoton}>Fire</button>
     </div>
   );
 }

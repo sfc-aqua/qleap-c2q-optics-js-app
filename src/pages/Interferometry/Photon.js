@@ -2,14 +2,23 @@ class Photon {
   constructor(x, y, radius, speed) {
     this.posX = x;
     this.posY = y;
+    this.initialPosX = x;
+    this.initialPosY = y;
     this.radius = radius;
     this.speed = speed;
     this.speedX = this.speed;
     this.speedY = -1 * this.speed;
   }
 
+  initialize() {
+    this.posX = this.initialPosX;
+    this.posY = this.initialPosY;
+    this.speedX = this.speed;
+    this.speedY = -1 * this.speed;
+  }
+
   moveTo(context, splitter1, mirror, splitter2, detector) {
-    if (this.posX < detector.posX+this.radius) {
+    if (this.posX < detector.posX + this.radius) {
       this.posX += this.speedX;
       this.posY += this.speedY;
 
