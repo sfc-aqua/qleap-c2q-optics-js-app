@@ -1,13 +1,14 @@
 import SingleRect from "./singleRect";
 import DoubleRect from "./doubleRect";
+import Photon from "./Photon";
 
 // show path of photon
 const drawThePhotonPath = (context, originObj, destinationObj, lineWidth = 1) => {
   context.beginPath();
   context.lineWidth = 5;
   context.setLineDash([10, 5]);
-  context.moveTo(originObj.x, originObj.y);
-  context.lineTo(destinationObj.x, destinationObj.y);
+  context.moveTo(originObj.posX, originObj.posY);
+  context.lineTo(destinationObj.posX, destinationObj.posY);
   context.stroke();
   context.lineWidth = lineWidth;
   context.setLineDash([]);
@@ -20,28 +21,90 @@ class MachZehnderEquipment {
     this.width = width;
     this.height = height;
 
-    this.source = new SingleRect("Photon Source");
-    this.bs1 = new DoubleRect("BS1");
-    this.bs2 = new DoubleRect("BS2");
-    this.mirror0 = new DoubleRect("mirror");
-    this.mirror1 = new DoubleRect("mirror");
-    this.detector0 = new SingleRect("D0");
-    this.detector1 = new SingleRect("D1");
+    this.source = new SingleRect(
+      "Photon Source",
+      this.posX,
+      this.posY + 0.75 * this.height,
+      50,
+      50,
+      45,
+    );
+    this.bs1 = new DoubleRect(
+      "BS1",
+      this.posX + 0.25 * this.width,
+      this.posY + 0.5 * this.height,
+      100,
+      5,
+      180,
+      2,
+      1,
+    );
+    this.bs2 = new DoubleRect(
+      "BS2",
+      this.posX + 0.75 * this.width,
+      this.posY + 0.5 * this.height,
+      100,
+      5,
+      0,
+      2,
+      1,
+    );
+    this.mirror0 = new DoubleRect(
+      "mirror",
+      this.posX + 0.5 * this.width,
+      this.posY + 0.25 * this.height,
+      100,
+      5,
+      180,
+      1,
+      2,
+    );
+    this.mirror1 = new DoubleRect(
+      "mirror",
+      this.posX + 0.5 * this.width,
+      this.posY + 0.75 * this.height,
+      100,
+      5,
+      0,
+      1,
+      2,
+    );
+    this.detector0 = new SingleRect(
+      "D0",
+      this.posX + this.width,
+      this.posY + 0.25 * this.height,
+      50,
+      50,
+      -135,
+    );
+    this.detector1 = new SingleRect(
+      "D1",
+      this.posX + this.width,
+      this.posY + 0.75 * this.height,
+      50,
+      50,
+      -45,
+    );
+
+    this.photon = new Photon(
+      this.source.posX,
+      this.source.posY,
+      10,
+      1,
+    );
   }
 
   draw(context) {
-    context.save();
-    context.translate(this.posX, this.posY);
     // const sample = new DoubleRect(50, 250, 50, -30, 0, 1, 0);
 
     // show objects
-    this.source.draw(context, 0, 0.75 * this.height, 50, 50, 45);
-    this.bs1.draw(context, 0.25 * this.width, 0.5 * this.height, 100, 5, 180, 2, 1);
-    this.bs2.draw(context, 0.75 * this.width, 0.5 * this.height, 100, 5, 0, 2, 1);
-    this.mirror0.draw(context, 0.5 * this.width, 0.25 * this.height, 100, 5, 180, 1, 2);
-    this.mirror1.draw(context, 0.5 * this.width, 0.75 * this.height, 100, 5, 0, 1, 2);
-    this.detector0.draw(context, this.width, 0.25 * this.height, 50, 50, -135);
-    this.detector1.draw(context, this.width, 0.75 * this.height, 50, 50, -45);
+    this.source.draw(context);
+    this.bs1.draw(context);
+    this.bs2.draw(context);
+    this.mirror0.draw(context);
+    this.mirror1.draw(context);
+    this.detector0.draw(context);
+    this.detector1.draw(context);
 
     drawThePhotonPath(context, this.source, this.bs1);
     drawThePhotonPath(context, this.bs1, this.mirror0);
@@ -50,8 +113,10 @@ class MachZehnderEquipment {
     drawThePhotonPath(context, this.mirror1, this.bs2);
     drawThePhotonPath(context, this.bs2, this.detector0);
     drawThePhotonPath(context, this.bs2, this.detector1);
+  }
 
-    context.restore();
+  fire(context) {
+    this.photon.moveTo(context, this.bs1, this.mirror0, this.bs2, this.detector0);
   }
 }
 

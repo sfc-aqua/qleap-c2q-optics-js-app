@@ -17,6 +17,8 @@ function MachZehnderCanvas({ size: { width, height } }) {
     const ctx = cvs.current.getContext("2d");
     ctx.clearRect(0, 0, width, height);
     equipment.draw(ctx);
+    equipment.fire(ctx, equipment.mirror0);
+    // photon.moveTo(ctx, width, height);
   });
   return (
     <canvas
