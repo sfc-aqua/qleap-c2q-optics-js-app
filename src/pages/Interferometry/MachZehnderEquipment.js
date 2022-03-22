@@ -1,6 +1,5 @@
 import SingleRect from "./singleRect";
 import DoubleRect from "./doubleRect";
-import Photon from "./Photon";
 
 // show path of photon
 const drawThePhotonPath = (context, originObj, destinationObj, lineWidth = 1) => {
@@ -20,13 +19,14 @@ class MachZehnderEquipment {
     this.posY = posY;
     this.width = width;
     this.height = height;
+    this.counts = 0;
 
     this.source = new SingleRect(
       "Photon Source",
       this.posX,
       this.posY + 0.75 * this.height,
       50,
-      50,
+      150,
       45,
     );
     this.bs1 = new DoubleRect(
@@ -85,13 +85,6 @@ class MachZehnderEquipment {
       50,
       -45,
     );
-
-    this.photon = new Photon(
-      this.source.posX,
-      this.source.posY,
-      10,
-      5,
-    );
   }
 
   draw(context) {
@@ -115,18 +108,23 @@ class MachZehnderEquipment {
     drawThePhotonPath(context, this.bs2, this.detector1);
   }
 
-  fire(context) {
-    this.photon.moveTo(context, this.bs1, this.mirror0, this.bs2, this.detector0);
-    if (this.photon.posX > this.detector0.posX && this.photon.posY < this.detector0.posY) {
-      context.fillRect(this.detector0.posX - 60, this.detector0.posY, 30, 5);
-      context.fillRect(this.detector0.posX, this.detector0.posY + 30, 5, 30);
-    }
-    if (this.photon.posX > this.detector1.posX && this.photon.posY > this.detector1.posY) {
-      context.fillRect(this.detector1.posX - 60, this.detector1.posY, 30, 5);
-      context.fillRect(this.detector1.posX, this.detector1.posY - 60, 5, 30);
-    }
-    if (this.photon.posX === this.detector1.posX + this.photon.radius) {
-      this.photon.initialize();
+  fire(context, photon, photonFire) {
+    if (photonFire) {
+      photon.moveTo(context, this.bs1, this.mirror0, this.bs2, this.detector0);
+      if (photon.posX > this.detector0.posX && photon.posY < this.detector0.posY) {
+        context.fillRect(this.detector0.posX - 60, this.detector0.posY, 30, 5);
+        context.fillRect(this.detector0.posX, this.detector0.posY + 30, 5, 30);
+      }
+      if (photon.posX > this.detector1.posX && photon.posY > this.detector1.posY) {
+        context.fillRect(this.detector1.posX - 60, this.detector1.posY, 30, 5);
+        context.fillRect(this.detector1.posX, this.detector1.posY - 60, 5, 30);
+      }
+      if (photon.posX > this.detector1.posX) {
+        photon.reset();
+        this.counts += 1;
+      }
+    } else {
+      photon.initialize();
     }
   }
 }

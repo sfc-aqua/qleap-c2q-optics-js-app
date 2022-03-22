@@ -17,6 +17,11 @@ class Photon {
     this.speedY = -1 * this.speed;
   }
 
+  reset() {
+    this.posX = NaN;
+    this.posY = NaN;
+  }
+
   moveTo(context, splitter1, mirror, splitter2, detector) {
     if (this.posX < detector.posX + this.radius) {
       this.posX += this.speedX;

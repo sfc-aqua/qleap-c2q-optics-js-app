@@ -8,8 +8,12 @@ function Interferometry() {
     setAngle(Number(e.target.value));
   };
   const [fire, setFire] = useState(false);
-  const firePhoton = () => {
+  const setFirePhoton = () => {
     setFire(!fire);
+  };
+  const [shots, setShots] = useState(1);
+  const handleNumberOfShots = (e) => {
+    setShots(Number(e.target.value));
   };
 
   return (
@@ -20,8 +24,22 @@ function Interferometry() {
         <AngleSlider angle={angle} onChange={handleSliderChange} />
         <h1>{angle * Math.PI * 0.05}</h1>
       </div>
-      <MachZehnderCanvas size={{ width: 800, height: 600 }} photonFire={fire} />
-      <button type="button" onClick={firePhoton}>Fire</button>
+      <MachZehnderCanvas
+        size={{ width: 800, height: 600 }}
+        photonFire={fire}
+        setFirePhoton={setFirePhoton}
+        shots={shots}
+      />
+      <button type="button" onClick={setFirePhoton}>Fire</button>
+      <div>
+        <select onChange={handleNumberOfShots}>
+          <option value="1">1</option>
+          <option value="10">10</option>
+          <option value="100">100</option>
+          <option value="1000">1000</option>
+        </select>
+        {shots}
+      </div>
     </div>
   );
 }
