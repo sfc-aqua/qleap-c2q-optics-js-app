@@ -25,7 +25,7 @@ function Interferometry() {
         <h1>{angle * Math.PI * 0.05}</h1>
       </div>
       <MachZehnderCanvas
-        size={{ width: 800, height: 600 }}
+        size={{ width: 1400, height: 600 }}
         photonFire={fire}
         setFirePhoton={setFirePhoton}
         shots={shots}

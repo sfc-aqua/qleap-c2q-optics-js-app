@@ -24,7 +24,7 @@ class MachZehnderEquipment {
     this.source = new SingleRect(
       "Photon Source",
       this.posX,
-      this.posY + 0.75 * this.height,
+      this.posY + this.height,
       50,
       150,
       45,
@@ -52,7 +52,7 @@ class MachZehnderEquipment {
     this.mirror0 = new DoubleRect(
       "mirror",
       this.posX + 0.5 * this.width,
-      this.posY + 0.25 * this.height,
+      this.posY,
       100,
       5,
       180,
@@ -62,7 +62,7 @@ class MachZehnderEquipment {
     this.mirror1 = new DoubleRect(
       "mirror",
       this.posX + 0.5 * this.width,
-      this.posY + 0.75 * this.height,
+      this.posY + this.height,
       100,
       5,
       0,
@@ -72,7 +72,7 @@ class MachZehnderEquipment {
     this.detector0 = new SingleRect(
       "D0",
       this.posX + this.width,
-      this.posY + 0.25 * this.height,
+      this.posY,
       50,
       50,
       -135,
@@ -80,7 +80,7 @@ class MachZehnderEquipment {
     this.detector1 = new SingleRect(
       "D1",
       this.posX + this.width,
-      this.posY + 0.75 * this.height,
+      this.posY + this.height,
       50,
       50,
       -45,

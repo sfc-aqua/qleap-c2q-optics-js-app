@@ -7,7 +7,7 @@ import Photon from "./Photon";
 const equipment = new MachZehnderEquipment(
   100,
   100,
-  400,
+  800,
   400,
 );
 
