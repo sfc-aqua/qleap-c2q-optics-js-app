@@ -9,7 +9,7 @@ class Photon {
   }
 
   moveTo(context, splitter1, mirror, splitter2, detector) {
-    if (this.posX < detector.posX) {
+    if (this.posX < detector.posX+this.radius) {
       this.posX += this.speedX;
       this.posY += this.speedY;
 
