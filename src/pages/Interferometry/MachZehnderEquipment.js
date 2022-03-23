@@ -91,8 +91,6 @@ class MachZehnderEquipment {
   }
 
   draw(context, angle, showSample) {
-    // const sample = new DoubleRect(50, 250, 50, -30, 0, 1, 0);
-
     // show objects
     this.source.draw(context);
     this.bs1.draw(context);
@@ -117,7 +115,9 @@ class MachZehnderEquipment {
 
   fire(context, photon, photonFire) {
     if (photonFire) {
-      photon.moveTo(context, this.bs1, this.mirror0, this.bs2, this.detector0);
+      photon.move(this.detector0, this.mirror0, this.bs1, this.bs2);
+      photon.drawParticle(context);
+
       if (photon.posX > this.detector0.posX && photon.posY < this.detector0.posY) {
         context.fillRect(this.detector0.posX - 60, this.detector0.posY, 30, 5);
         context.fillRect(this.detector0.posX, this.detector0.posY + 30, 5, 30);

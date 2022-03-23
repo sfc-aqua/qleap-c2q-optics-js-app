@@ -1,5 +1,5 @@
 class Photon {
-  constructor(x, y, radius, speed) {
+  constructor(x, y, radius, speed, probabilityBS1, probabilityBS2) {
     this.posX = x;
     this.posY = y;
     this.initialPosX = x;
@@ -8,6 +8,8 @@ class Photon {
     this.speed = speed;
     this.speedX = this.speed;
     this.speedY = -1 * this.speed;
+    this.probabilityBS1 = probabilityBS1;
+    this.probabilityBS2 = probabilityBS2;
   }
 
   initialize() {
@@ -22,28 +24,42 @@ class Photon {
     this.posY = NaN;
   }
 
-  moveTo(context, splitter1, mirror, splitter2, detector) {
-    if (this.posX < detector.posX + this.radius) {
-      this.posX += this.speedX;
-      this.posY += this.speedY;
-
-      if (this.posX === splitter1.posX) {
-        this.speedY *= -1;
-      }
-      if (this.posX === mirror.posX) {
-        this.speedY *= -1;
-      }
-      if (this.posX === splitter2.posX) {
-        this.speedY *= -1;
-      }
-    }
-    this.drawParticle(context);
-  }
-
   drawParticle(context) {
     context.beginPath();
     context.arc(this.posX, this.posY, this.radius, 0, 2 * Math.PI);
     context.fill();
+  }
+
+  move(detector, mirror, bs1, bs2) {
+    if (this.posX < detector.posX + this.radius) {
+      this.posX += this.speedX;
+      this.posY += this.speedY;
+
+      // probabilistic behavior of beam splitter 1 (always 5:5)
+      if (this.posX === bs1.posX) {
+        if (this.probabilityBS1 < 0.5) {
+          this.speedY *= -1;
+        }
+      }
+
+      // reflection behavior of mirrors
+      if (this.posX === mirror.posX) {
+        this.speedY *= -1;
+      }
+
+      // probabilistic behavior of beam splitter 2
+      if (this.posX === bs2.posX) {
+        if (this.speedY < 0) { // this come from upper side
+          if (this.probabilityBS1 >= this.probabilityBS2) {
+            this.speedY *= -1;
+          }
+        } else if (this.speedY > 0) { // this come from lower side
+          if (this.probabilityBS1 < this.probabilityBS2) {
+            this.speedY *= -1;
+          }
+        }
+      }
+    }
   }
 }
 

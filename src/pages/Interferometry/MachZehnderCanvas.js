@@ -11,14 +11,24 @@ const equipment = new MachZehnderEquipment(
   400,
 );
 
-const generateNumberOfPhotons = (number) => {
+const generateNumberOfPhotons = (number, angle) => {
   const photonArray = [];
+  const d0Probability = [
+    1, 0.98, 0.9, 0.79, 0.65, 0.5, 0.35, 0.21, 0.1, 0.2,
+    0, 0.2, 0.1, 0.21, 0.35, 0.5, 0.65, 0.79, 0.9, 0.98, 1,
+  ];
   for (let i = 0; i < number; i++) {
+    // probability of reflection of the beam splitters
+    const probabilityBS1 = Math.random();
+    const probabilityBS2 = d0Probability[angle];
+
     photonArray[i] = new Photon(
       equipment.source.posX - i * 50,
       equipment.source.posY + i * 50,
       10,
       5,
+      probabilityBS1,
+      probabilityBS2,
     );
   }
   return photonArray;
@@ -28,7 +38,7 @@ function MachZehnderCanvas({
   size: { width, height }, photonFire, setFirePhoton, shots, angle, showSample,
 }) {
   const cvs = useRef(null);
-  const photonArray = generateNumberOfPhotons(shots);
+  const photonArray = generateNumberOfPhotons(shots, angle);
 
   useAnimationFrame(() => {
     if (!cvs.current) return;
