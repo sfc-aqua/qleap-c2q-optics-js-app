@@ -8,8 +8,8 @@ function AngleSlider({ angle, onChange }) {
         type="range"
         name="reflective index"
         min="0"
-        max="40"
-        step="1"
+        max="2"
+        step="0.1"
         value={angle}
         onChange={onChange}
         list="tickmarks"
@@ -17,10 +17,10 @@ function AngleSlider({ angle, onChange }) {
       2π
       <datalist id="tickmarks">
         <option value="0" label="0" />
-        <option value="10" label="π/2" />
-        <option value="20" label="π" />
-        <option value="30" label="3π/2" />
-        <option value="40" label="2π" />
+        <option value="0.5" label="π/2" />
+        <option value="1" label="π" />
+        <option value="1.5" label="3π/2" />
+        <option value="2" label="2π" />
       </datalist>
     </div>
   );

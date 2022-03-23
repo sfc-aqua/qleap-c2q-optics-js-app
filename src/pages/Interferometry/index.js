@@ -10,7 +10,7 @@ function Interferometry() {
   const [showSample, setShowSample] = useState(false);
   const handleShowSample = () => {
     setShowSample(!showSample);
-  };
+  }
   const [fire, setFire] = useState(false);
   const setFirePhoton = () => {
     setFire(!fire);
@@ -23,7 +23,8 @@ function Interferometry() {
   return (
     <div>
       <h1>Interferometry</h1>
-      <div className="refractionInput" />
+      <div className="refractionInput">
+      </div>
       <MachZehnderCanvas
         size={{ width: 1400, height: 600 }}
         photonFire={fire}
@@ -34,9 +35,8 @@ function Interferometry() {
       />
       <button type="button" onClick={setFirePhoton}>Fire</button>
       <button type="button" onClick={handleShowSample}>Show Sample</button>
-      <AngleSlider angle={angle} onChange={handleSliderChange} />
-      {" "}
-      {angle * Math.PI * 0.05}
+      <AngleSlider angle={angle} onChange={handleSliderChange} /> 
+      {angle}π
       <div>
         <select onChange={handleNumberOfShots}>
           <option value="1">1</option>
