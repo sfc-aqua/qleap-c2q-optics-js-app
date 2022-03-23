@@ -1,5 +1,6 @@
 import SingleRect from "./singleRect";
 import DoubleRect from "./doubleRect";
+import Sample from "./Sample";
 
 // show path of photon
 const drawThePhotonPath = (context, originObj, destinationObj, lineWidth = 1) => {
@@ -85,9 +86,11 @@ class MachZehnderEquipment {
       50,
       -45,
     );
+
+    this.sample = new Sample(60, 40);
   }
 
-  draw(context) {
+  draw(context, angle, showSample) {
     // const sample = new DoubleRect(50, 250, 50, -30, 0, 1, 0);
 
     // show objects
@@ -98,6 +101,10 @@ class MachZehnderEquipment {
     this.mirror1.draw(context);
     this.detector0.draw(context);
     this.detector1.draw(context);
+
+    if (showSample) {
+      this.sample.draw(context, angle, this.bs1, this.mirror1);
+    }
 
     drawThePhotonPath(context, this.source, this.bs1);
     drawThePhotonPath(context, this.bs1, this.mirror0);

@@ -25,7 +25,7 @@ const generateNumberOfPhotons = (number) => {
 };
 
 function MachZehnderCanvas({
-  size: { width, height }, photonFire, setFirePhoton, shots,
+  size: { width, height }, photonFire, setFirePhoton, shots, angle, showSample,
 }) {
   const cvs = useRef(null);
   const photonArray = generateNumberOfPhotons(shots);
@@ -36,7 +36,7 @@ function MachZehnderCanvas({
     ctx.clearRect(0, 0, width, height);
 
     // show the MachZehnder Equipment
-    equipment.draw(ctx);
+    equipment.draw(ctx, angle, showSample);
 
     // Photon Animation
     photonArray.forEach((photon) => equipment.fire(ctx, photon, photonFire));
