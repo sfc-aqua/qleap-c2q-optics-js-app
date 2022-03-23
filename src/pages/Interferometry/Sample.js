@@ -5,7 +5,7 @@ class Sample {
   }
 
   draw(context, angle, bs1, mirror1) {
-    const diff = this.width * 0.5 * angle;
+    const diff = this.width * 0.05 * angle;
     context.beginPath();
     context.moveTo(
       (bs1.posX + mirror1.posX) / 2 - this.width + diff - 10,
