@@ -30,7 +30,7 @@ class Photon {
     context.fill();
   }
 
-  move(detector, mirror, bs1, bs2) {
+  move(detector, mirror, bs1, bs2, probability) {
     if (this.posX < detector.posX + this.radius) {
       this.posX += this.speedX;
       this.posY += this.speedY;
@@ -49,12 +49,12 @@ class Photon {
 
       // probabilistic behavior of beam splitter 2
       if (this.posX === bs2.posX) {
-        if (this.speedY < 0) { // this come from upper side
-          if (this.probabilityBS1 >= this.probabilityBS2) {
+        if (this.speedY > 0) { // this come from upper side
+          if (this.probabilityBS2 < probability) {
             this.speedY *= -1;
           }
-        } else if (this.speedY > 0) { // this come from lower side
-          if (this.probabilityBS1 < this.probabilityBS2) {
+        } else if (this.speedY < 0) { // this come from lower side
+          if (this.probabilityBS2 < 1 - probability) {
             this.speedY *= -1;
           }
         }

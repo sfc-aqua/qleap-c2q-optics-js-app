@@ -20,6 +20,8 @@ class MachZehnderEquipment {
     this.posY = posY;
     this.width = width;
     this.height = height;
+    this.countsD0 = 0;
+    this.countsD1 = 0;
     this.counts = 0;
 
     this.source = new SingleRect(
@@ -113,9 +115,9 @@ class MachZehnderEquipment {
     drawThePhotonPath(context, this.bs2, this.detector1);
   }
 
-  fire(context, photon, photonFire) {
+  fire(context, photon, photonFire, probability) {
     if (photonFire) {
-      photon.move(this.detector0, this.mirror0, this.bs1, this.bs2);
+      photon.move(this.detector0, this.mirror0, this.bs1, this.bs2, probability);
       photon.drawParticle(context);
 
       if (photon.posX > this.detector0.posX && photon.posY < this.detector0.posY) {
@@ -126,9 +128,15 @@ class MachZehnderEquipment {
         context.fillRect(this.detector1.posX - 60, this.detector1.posY, 30, 5);
         context.fillRect(this.detector1.posX, this.detector1.posY - 60, 5, 30);
       }
-      if (photon.posX > this.detector1.posX) {
+      if (photon.posX > this.detector0.posX) {
+        if (photon.posY < this.detector0.posY) { // click detector 0
+          this.countsD0 += 1;
+          this.counts += 1;
+        } else { // click detector 1
+          this.countsD1 += 1;
+          this.counts += 1;
+        }
         photon.reset();
-        this.counts += 1;
       }
     } else {
       photon.initialize();

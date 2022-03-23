@@ -11,16 +11,12 @@ const equipment = new MachZehnderEquipment(
   400,
 );
 
-const generateNumberOfPhotons = (number, angle) => {
+const generateNumberOfPhotons = (number) => {
   const photonArray = [];
-  const d0Probability = [
-    1, 0.98, 0.9, 0.79, 0.65, 0.5, 0.35, 0.21, 0.1, 0.2,
-    0, 0.2, 0.1, 0.21, 0.35, 0.5, 0.65, 0.79, 0.9, 0.98, 1,
-  ];
   for (let i = 0; i < number; i++) {
     // probability of reflection of the beam splitters
     const probabilityBS1 = Math.random();
-    const probabilityBS2 = d0Probability[angle];
+    const probabilityBS2 = Math.random();
 
     photonArray[i] = new Photon(
       equipment.source.posX - i * 50,
@@ -34,11 +30,21 @@ const generateNumberOfPhotons = (number, angle) => {
   return photonArray;
 };
 
+const probabilityList = [
+  1, 0.98, 0.9, 0.79, 0.65, 0.5, 0.35, 0.21, 0.1, 0.02,
+  0, 0.02, 0.1, 0.21, 0.35, 0.5, 0.65, 0.79, 0.9, 0.98, 1,
+];
+
 function MachZehnderCanvas({
-  size: { width, height }, photonFire, setFirePhoton, shots, angle, showSample,
+  size: { width, height },
+  photonFire, setFirePhoton,
+  shots, angle, showSample,
+  setCountStatus,
+  resetCounts, setResetCounts,
 }) {
   const cvs = useRef(null);
   const photonArray = generateNumberOfPhotons(shots, angle);
+  const probability = probabilityList[angle];
 
   useAnimationFrame(() => {
     if (!cvs.current) return;
@@ -49,7 +55,7 @@ function MachZehnderCanvas({
     equipment.draw(ctx, angle, showSample);
 
     // Photon Animation
-    photonArray.forEach((photon) => equipment.fire(ctx, photon, photonFire));
+    photonArray.forEach((photon) => equipment.fire(ctx, photon, photonFire, probability));
     if (equipment.counts === shots) {
       setFirePhoton(false);
       equipment.counts = 0;
@@ -62,6 +68,32 @@ function MachZehnderCanvas({
     ctx.textAlign = "center";
     ctx.strokeText(`${d0Probability[angle]}%`, equipment.detector0.posX + 110, equipment.detector0.posY);
     ctx.strokeText(`${d1Probability[angle]}%`, equipment.detector1.posX + 110, equipment.detector1.posY);
+
+    // show counts of clicked detector as a discrete probability distribution
+    ctx.strokeRect(1300, 50, -210, 500);
+    const widthRatio = 200 / shots;
+    ctx.strokeRect(1300, 150, -equipment.countsD0 * widthRatio, 50);
+    ctx.strokeRect(1300, 400, -equipment.countsD1 * widthRatio, 50);
+    ctx.font = "40px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(equipment.countsD0, 1250, 250);
+    ctx.fillText(equipment.countsD1, 1250, 500);
+    ctx.fillText("D0", 1350, 200);
+    ctx.fillText("D1", 1350, 450);
+
+    // disable photon fire button when counts is not empty
+    if (equipment.countsD0 > 1) {
+      setCountStatus("counted");
+    }
+
+    // reset counts of click distribution
+    if (resetCounts) {
+      setResetCounts(false);
+      equipment.counts = 0;
+      equipment.countsD0 = 0;
+      equipment.countsD1 = 0;
+      setCountStatus("empty");
+    }
   });
   return (
     <canvas
