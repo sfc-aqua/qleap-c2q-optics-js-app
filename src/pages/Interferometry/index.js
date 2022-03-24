@@ -7,12 +7,16 @@ function Interferometry() {
   const [angle, setAngle] = useState(0);
   const handleSliderChange = (e) => {
     setAngle(Number(e.target.value));
+    setResetCounts(true);
+    setFire(false);
   };
 
   // show sample
   const [showSample, setShowSample] = useState(false);
   const handleShowSample = () => {
     setShowSample(!showSample);
+    setResetCounts(true);
+    setFire(false);
   };
 
   // handler for fire photon
