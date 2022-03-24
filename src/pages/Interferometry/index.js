@@ -3,6 +3,21 @@ import AngleSlider from "./AngleSlider";
 import MachZehnderCanvas from "./MachZehnderCanvas";
 
 function Interferometry() {
+  // handler for fire photon
+  const [fire, setFire] = useState(false);
+  const [countStatus, setCountStatus] = useState("empty");
+  const setFirePhoton = () => {
+    setFire(!fire);
+    setCountStatus("counted");
+  };
+
+  // handler for reset counts distribution status
+  const [resetCounts, setResetCounts] = useState(false);
+  const handleResetCounts = () => {
+    setResetCounts(true);
+    setFire(false);
+  };
+
   // user input for phase angle
   const [angle, setAngle] = useState(0);
   const handleSliderChange = (e) => {
@@ -19,25 +34,10 @@ function Interferometry() {
     setFire(false);
   };
 
-  // handler for fire photon
-  const [fire, setFire] = useState(false);
-  const [countStatus, setCountStatus] = useState("empty");
-  const setFirePhoton = () => {
-    setFire(!fire);
-    setCountStatus("counted");
-  };
-
   // user input for number of photon shots
   const [shots, setShots] = useState(1);
   const handleNumberOfShots = (e) => {
     setShots(Number(e.target.value));
-    setFire(false);
-  };
-
-  //
-  const [resetCounts, setResetCounts] = useState(false);
-  const handleResetCounts = () => {
-    setResetCounts(true);
     setFire(false);
   };
 
