@@ -11,29 +11,33 @@ const equipment = new MachZehnderEquipment(
   400,
 );
 
-const generateNumberOfPhotons = (number) => {
-  const photonArray = [];
-  for (let i = 0; i < number; i++) {
+const generatePhotons = (numPhotons) => {
+  const photons = [];
+  for (let i = 0; i < numPhotons; i++) {
     // probability of reflection of the beam splitters
     const probabilityBS1 = Math.random();
     const probabilityBS2 = Math.random();
 
-    photonArray[i] = new Photon(
-      equipment.source.posX - i * 50,
-      equipment.source.posY + i * 50,
-      10,
-      5,
-      probabilityBS1,
-      probabilityBS2,
+    photons.push(
+      new Photon(
+        equipment.source.posX - i * 50,
+        equipment.source.posY + i * 50,
+        10,
+        5,
+        probabilityBS1,
+        probabilityBS2,
+      ),
     );
   }
-  return photonArray;
+  return photons;
 };
 
-const probabilityList = [
+const PROBABILITIES = [
   1, 0.98, 0.9, 0.79, 0.65, 0.5, 0.35, 0.21, 0.1, 0.02,
   0, 0.02, 0.1, 0.21, 0.35, 0.5, 0.65, 0.79, 0.9, 0.98, 1,
 ];
+const d0Probability = ["100", "98", "90", "79", "65", "50", "35", "21", "10", "2", "0", "2", "10", "21", "35", "50", "65", "79", "90", "98", "100"];
+const d1Probability = ["0", "2", "10", "21", "35", "50", "65", "79", "90", "98", "100", "98", "90", "79", "65", "50", "35", "21", "10", "2", "0"];
 
 function MachZehnderCanvas({
   size: { width, height },
@@ -43,8 +47,8 @@ function MachZehnderCanvas({
   resetCounts, setResetCounts,
 }) {
   const cvs = useRef(null);
-  const photonArray = generateNumberOfPhotons(shots, angle);
-  const probability = probabilityList[angle];
+  const photonArray = generatePhotons(shots, angle);
+  const probability = PROBABILITIES[angle];
 
   useAnimationFrame(() => {
     if (!cvs.current) return;
@@ -62,8 +66,6 @@ function MachZehnderCanvas({
     }
 
     //  theoretical probability to click detector
-    const d0Probability = ["100", "98", "90", "79", "65", "50", "35", "21", "10", "2", "0", "2", "10", "21", "35", "50", "65", "79", "90", "98", "100"];
-    const d1Probability = ["0", "2", "10", "21", "35", "50", "65", "79", "90", "98", "100", "98", "90", "79", "65", "50", "35", "21", "10", "2", "0"];
     ctx.font = "40px Arial";
     ctx.textAlign = "center";
     ctx.strokeText(`${d0Probability[angle]}%`, equipment.detector0.posX + 110, equipment.detector0.posY);

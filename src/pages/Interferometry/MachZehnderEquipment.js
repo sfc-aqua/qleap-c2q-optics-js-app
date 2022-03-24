@@ -131,11 +131,10 @@ class MachZehnderEquipment {
       if (photon.posX > this.detector0.posX) {
         if (photon.posY < this.detector0.posY) { // click detector 0
           this.countsD0 += 1;
-          this.counts += 1;
         } else { // click detector 1
           this.countsD1 += 1;
-          this.counts += 1;
         }
+        this.counts += 1;
         photon.reset();
       }
     } else {

@@ -31,32 +31,33 @@ class Photon {
   }
 
   move(detector, mirror, bs1, bs2, probability) {
-    if (this.posX < detector.posX + this.radius) {
-      this.posX += this.speedX;
-      this.posY += this.speedY;
+    if (this.posX >= detector.posX + this.radius) {
+      return;
+    }
+    this.posX += this.speedX;
+    this.posY += this.speedY;
 
-      // probabilistic behavior of beam splitter 1 (always 5:5)
-      if (this.posX === bs1.posX) {
-        if (this.probabilityBS1 < 0.5) {
-          this.speedY *= -1;
-        }
-      }
-
-      // reflection behavior of mirrors
-      if (this.posX === mirror.posX) {
+    // probabilistic behavior of beam splitter 1 (always 5:5)
+    if (this.posX === bs1.posX) {
+      if (this.probabilityBS1 < 0.5) {
         this.speedY *= -1;
       }
+    }
 
-      // probabilistic behavior of beam splitter 2
-      if (this.posX === bs2.posX) {
-        if (this.speedY > 0) { // this come from upper side
-          if (this.probabilityBS2 < probability) {
-            this.speedY *= -1;
-          }
-        } else if (this.speedY < 0) { // this come from lower side
-          if (this.probabilityBS2 < 1 - probability) {
-            this.speedY *= -1;
-          }
+    // reflection behavior of mirrors
+    if (this.posX === mirror.posX) {
+      this.speedY *= -1;
+    }
+
+    // probabilistic behavior of beam splitter 2
+    if (this.posX === bs2.posX) {
+      if (this.speedY > 0) { // this come from upper side
+        if (this.probabilityBS2 < probability) {
+          this.speedY *= -1;
+        }
+      } else if (this.speedY < 0) { // this come from lower side
+        if (this.probabilityBS2 < 1 - probability) {
+          this.speedY *= -1;
         }
       }
     }
