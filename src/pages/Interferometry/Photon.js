@@ -11,6 +11,8 @@ class Photon {
     this.speedY = -1 * this.speed;
     this.speedY0 = this.speedY;
     this.speedY1 = this.speedY;
+    this.ratio0 = 1;
+    this.ratio1 = 1;
     this.probabilityBS2 = probabilityBS2;
   }
 
@@ -22,6 +24,8 @@ class Photon {
     this.speedY = -1 * this.speed;
     this.speedY0 = this.speedY;
     this.speedY1 = this.speedY;
+    this.ratio0 = 1;
+    this.ratio1 = 1;
   }
 
   reset() {
@@ -32,8 +36,8 @@ class Photon {
 
   drawParticle(context) {
     context.beginPath();
-    context.arc(this.posX, this.posY0, this.radius, 0, 2 * Math.PI);
-    context.arc(this.posX, this.posY1, this.radius, 0, 2 * Math.PI);
+    context.arc(this.posX, this.posY0, this.radius*this.ratio0, 0, 2 * Math.PI);
+    context.arc(this.posX, this.posY1, this.radius*this.ratio1, 0, 2 * Math.PI);
     context.fill();
   }
 
@@ -48,6 +52,8 @@ class Photon {
     // probabilistic behavior of beam splitter 1 (always 5:5)
     if (this.posX === bs1.posX) {
       this.speedY1 *= -1;
+      this.ratio0 = 0.5;
+      this.ratio1 = 0.5;
     }
 
     // reflection behavior of mirrors
@@ -60,8 +66,10 @@ class Photon {
     if (this.posX === bs2.posX) {
       // this come from upper side
       this.speedY0 *= -1;
+      this.ratio0 = probability;
       // this come from lower side
       this.speedY1 *= -1;
+      this.ratio1 = 1-probability;
     }
   }
 }

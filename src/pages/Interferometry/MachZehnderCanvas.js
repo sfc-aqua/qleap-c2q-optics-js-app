@@ -21,7 +21,7 @@ const generatePhotons = (numPhotons) => {
       new Photon(
         equipment.source.posX - i * 50,
         equipment.source.posY + i * 50,
-        10,
+        20,
         5,
         probabilityBS2,
       ),
