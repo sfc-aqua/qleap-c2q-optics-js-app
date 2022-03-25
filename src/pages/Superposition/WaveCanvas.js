@@ -68,7 +68,6 @@ function WaveCanvas({ drawFunc }) {
             position: relative;
             width: 100%;
             height: 600px;
-            border: solid 1px red;
           }
         `}
       </style>
