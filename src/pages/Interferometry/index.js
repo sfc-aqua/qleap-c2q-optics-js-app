@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AngleSlider from "./AngleSlider";
 import MachZehnderCanvas from "./MachZehnderCanvas";
+import { MathJax, MathJaxContext } from "better-react-mathjax";
 
 function Interferometry() {
   // handler for fire photon
@@ -75,6 +76,9 @@ function Interferometry() {
           </select>
           {shots}
         </div>
+        <MathJaxContext>
+          <MathJax>{"\\[\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{cc} 1 & 1  \\\\ 1 & -1 \\end{array}\\right)\\]"}</MathJax>
+        </MathJaxContext>
       </div>
     </div>
   );
