@@ -50,9 +50,8 @@ function WaveCanvas({ drawFunc }) {
     drawAxis(ctx);
     ctx.save();
     ctx.translate(gridSize * 2, gridSize * 3);
-    drawFunc(ctx, timestamp);
+    drawFunc(ctx, timestamp / 3);
     ctx.restore();
-    console.log(timestamp);
   });
 
   useEffect(() => {
