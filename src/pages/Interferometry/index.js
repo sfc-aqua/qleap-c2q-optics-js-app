@@ -42,6 +42,10 @@ function Interferometry() {
     setFire(false);
   };
 
+  const [showDescription, setShowDiscription] = useState(false);
+  const onCanvasMouseMove = () => setShowDiscription(true);
+  const onCanvasMouseLeave = () => setShowDiscription(false);
+
   const radian = angle * 0.1;
   return (
     <div>
@@ -58,8 +62,10 @@ function Interferometry() {
           setCountStatus={setCountStatus}
           resetCounts={resetCounts}
           setResetCounts={setResetCounts}
+          onMouseMove={onCanvasMouseMove}
+          onMouseLeave={onCanvasMouseLeave}
         />
-        <MathJaxDisplay source={"\\[\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{cc} 1 & 1  \\\\ 1 & -1 \\end{array}\\right)\\]"} x={100} y={50} />
+        <MathJaxDisplay source={"\\[\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{cc} 1 & 1  \\\\ 1 & -1 \\end{array}\\right)\\]"} x={100} y={50} hidden={!showDescription} />
       </div>
 
       <div>
