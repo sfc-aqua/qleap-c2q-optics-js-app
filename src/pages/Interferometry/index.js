@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AngleSlider from "./AngleSlider";
 import MachZehnderCanvas from "./MachZehnderCanvas";
+import MathJaxDisplay from "../../MathJaxDisplay";
 
 function Interferometry() {
   // handler for fire photon
@@ -46,25 +47,42 @@ function Interferometry() {
     <div>
       <h1>Interferometry</h1>
       <div className="refractionInput" />
-      <MachZehnderCanvas
-        size={{ width: 1400, height: 600 }}
-        photonFire={fire}
-        setFirePhoton={setFirePhoton}
-        shots={shots}
-        angle={angle}
-        showSample={showSample}
-        setCountStatus={setCountStatus}
-        resetCounts={resetCounts}
-        setResetCounts={setResetCounts}
-      />
+      <div className="canvas-wrapper">
+        <MachZehnderCanvas
+          size={{ width: 1400, height: 600 }}
+          photonFire={fire}
+          setFirePhoton={setFirePhoton}
+          shots={shots}
+          angle={angle}
+          showSample={showSample}
+          setCountStatus={setCountStatus}
+          resetCounts={resetCounts}
+          setResetCounts={setResetCounts}
+        />
+        <MathJaxDisplay source={"\\[\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{cc} 1 & 1  \\\\ 1 & -1 \\end{array}\\right)\\]"} x={100} y={50} />
+      </div>
+
       <div>
-        <button type="button" disabled={countStatus !== "empty"} onClick={setFirePhoton}>Fire</button>
-        <button type="button" disabled={countStatus === "empty"} onClick={handleResetCounts}>Reset counts</button>
+        <button
+          type="button"
+          disabled={countStatus !== "empty"}
+          onClick={setFirePhoton}
+        >
+          Fire
+        </button>
+        <button
+          type="button"
+          disabled={countStatus === "empty"}
+          onClick={handleResetCounts}
+        >
+          Reset counts
+        </button>
         <div>
-          <button type="button" onClick={handleShowSample}>Show Sample</button>
+          <button type="button" onClick={handleShowSample}>
+            Show Sample
+          </button>
           <AngleSlider angle={angle} onChange={handleSliderChange} />
           {radian.toFixed(1)}
-          π
         </div>
         <div>
           <select onChange={handleNumberOfShots}>
@@ -76,6 +94,13 @@ function Interferometry() {
           {shots}
         </div>
       </div>
+      <style jsx>
+        {`
+          .canvas-wrapper {
+            position: relative;
+          }
+        `}
+      </style>
     </div>
   );
 }
