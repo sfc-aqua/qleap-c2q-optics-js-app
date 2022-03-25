@@ -2,8 +2,8 @@ import { useRef, useEffect, useCallback } from "react";
 
 const useAnimationFrame = (callback) => {
   const animationRef = useRef();
-  const animate = useCallback(() => {
-    callback();
+  const animate = useCallback((timestamp) => {
+    callback(timestamp);
     animationRef.current = requestAnimationFrame(animate);
   }, [callback]);
   useEffect(() => {
