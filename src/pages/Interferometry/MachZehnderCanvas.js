@@ -45,6 +45,8 @@ function MachZehnderCanvas({
   shots, angle, showSample,
   setCountStatus,
   resetCounts, setResetCounts,
+  onMouseMove,
+  onMouseLeave,
 }) {
   const cvs = useRef(null);
   const photonArray = generatePhotons(shots, angle);
@@ -102,6 +104,8 @@ function MachZehnderCanvas({
       width={width}
       height={height}
       ref={cvs}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
       style={{ border: "solid 1px red" }}
     />
 

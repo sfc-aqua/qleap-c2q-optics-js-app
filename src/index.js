@@ -3,6 +3,7 @@ import React from "react";
 import {
   HashRouter as Router, Routes, Route, Link,
 } from "react-router-dom";
+import { MathJaxContext } from "better-react-mathjax";
 import {
   FourierAnalysis,
   Blackbody,
@@ -57,16 +58,18 @@ const LINKS = {
 function App() {
   return (
     <div>
-      <Router>
-        <Link to="/">
-          <h1>CtoQ apps</h1>
-        </Link>
-        <Routes>
-          {Object.entries(LINKS).map(([path, Element]) => (
-            <Route key={path} path={path} element={<Element />} />
-          ))}
-        </Routes>
-      </Router>
+      <MathJaxContext>
+        <Router>
+          <Link to="/">
+            <h1>CtoQ apps</h1>
+          </Link>
+          <Routes>
+            {Object.entries(LINKS).map(([path, Element]) => (
+              <Route key={path} path={path} element={<Element />} />
+            ))}
+          </Routes>
+        </Router>
+      </MathJaxContext>
     </div>
   );
 }
