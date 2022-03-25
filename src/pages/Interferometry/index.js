@@ -42,9 +42,10 @@ function Interferometry() {
     setFire(false);
   };
 
-  const [showDescription, setShowDiscription] = useState(false);
-  const onCanvasMouseMove = () => setShowDiscription(true);
-  const onCanvasMouseLeave = () => setShowDiscription(false);
+  const [showOperators, setShowOperators] = useState(false);
+  const handleShowOperators = () => setShowOperators(!showOperators);
+  const [showStateVectors, setShowStateVectors] = useState(false);
+  const handleShowStateVectors = () => setShowStateVectors(!showStateVectors);
 
   const radian = angle * 0.1;
   return (
@@ -62,13 +63,19 @@ function Interferometry() {
           setCountStatus={setCountStatus}
           resetCounts={resetCounts}
           setResetCounts={setResetCounts}
-          onMouseMove={onCanvasMouseMove}
-          onMouseLeave={onCanvasMouseLeave}
         />
-        <MathJaxDisplay source={"\\[\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{cc} 1 & 1  \\\\ 1 & -1 \\end{array}\\right)\\]"} x={100} y={50} hidden={!showDescription} />
+        <MathJaxDisplay source={"\\[\\LARGE\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{cc} 1 & 1  \\\\ 1 & -1 \\end{array}\\right)\\]"} x={210} y={120} hidden={!showOperators} />
+        <MathJaxDisplay source={"\\[\\LARGE\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{cc} -1 & 1  \\\\ 1 & 1 \\end{array}\\right)\\]"} x={610} y={120} hidden={!showOperators} />
+        <MathJaxDisplay source={`\\[\\LARGE\\left(\\begin{array}{cc} 1 & 0  \\\\ 0 & e^{i${radian.toFixed(1)}\\pi} \\end{array}\\right)\\]`} x={290} y={480} hidden={!showOperators || !showSample} />
+
+        <MathJaxDisplay source={"\\[\\LARGE\\left(\\begin{array}{c} 1 \\\\ 0 \\end{array}\\right)\\]"} x={130} y={240} hidden={!showStateVectors} />
+        <MathJaxDisplay source={"\\[\\LARGE\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{c} 1 \\\\ -1 \\end{array}\\right)\\]"} x={420} y={250} hidden={!showStateVectors || showSample} />
+        <MathJaxDisplay source={`\\[\\LARGE\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{c} 1 \\\\ e^{i${radian.toFixed(1)}\\pi} \\end{array}\\right)\\]`} x={410} y={250} hidden={!showStateVectors || !showSample} />
+        <MathJaxDisplay source={"\\[\\LARGE\\left(\\begin{array}{c} 1 \\\\ 0 \\end{array}\\right)\\]"} x={790} y={250} hidden={!showStateVectors || showSample} />
+        <MathJaxDisplay source={`\\[\\LARGE\\frac{1}{2}\\left(\\begin{array}{c} 1 + e^{i${radian.toFixed(1)}\\pi}\\\\ 1 - e^{i${radian.toFixed(1)}\\pi} \\end{array}\\right)\\]`} x={790} y={250} hidden={!showStateVectors || !showSample} />
       </div>
 
-      <div>
+      <div className="control-plane">
         <button
           type="button"
           disabled={countStatus !== "empty"}
@@ -82,6 +89,18 @@ function Interferometry() {
           onClick={handleResetCounts}
         >
           Reset counts
+        </button>
+        <button
+          type="button"
+          onClick={handleShowOperators}
+        >
+          Show Operators
+        </button>
+        <button
+          type="button"
+          onClick={handleShowStateVectors}
+        >
+          Show State vectors
         </button>
         <div>
           <button type="button" onClick={handleShowSample}>

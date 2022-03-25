@@ -15,7 +15,7 @@ function MathJaxDisplay({
         display: hidden ? "none" : "",
       }}
     >
-      <MathJax>{source}</MathJax>
+      <MathJax dynamic renderMode="post" hideUntilTypeset="every">{source}</MathJax>
     </div>
   );
 }
