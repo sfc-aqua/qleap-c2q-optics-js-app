@@ -15,7 +15,6 @@ const generatePhotons = (numPhotons) => {
   const photons = [];
   for (let i = 0; i < numPhotons; i++) {
     // probability of reflection of the beam splitters
-    const probabilityBS1 = Math.random();
     const probabilityBS2 = Math.random();
 
     photons.push(
@@ -24,7 +23,6 @@ const generatePhotons = (numPhotons) => {
         equipment.source.posY + i * 50,
         10,
         5,
-        probabilityBS1,
         probabilityBS2,
       ),
     );

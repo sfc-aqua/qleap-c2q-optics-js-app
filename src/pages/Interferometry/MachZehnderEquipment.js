@@ -117,21 +117,28 @@ class MachZehnderEquipment {
 
   fire(context, photon, photonFire, probability) {
     if (photonFire) {
-      photon.move(this.detector0, this.mirror0, this.bs1, this.bs2, probability);
-      photon.drawParticle(context);
+      // photon movement
+      photon.move(this.detector0, this.mirror0, this.bs1, this.bs2, probability); //decide position of photon
+      photon.drawParticle(context); // draw photon particle
+      
 
-      if (photon.posX > this.detector0.posX && photon.posY < this.detector0.posY) {
-        context.fillRect(this.detector0.posX - 60, this.detector0.posY, 30, 5);
-        context.fillRect(this.detector0.posX, this.detector0.posY + 30, 5, 30);
-      }
-      if (photon.posX > this.detector1.posX && photon.posY > this.detector1.posY) {
-        context.fillRect(this.detector1.posX - 60, this.detector1.posY, 30, 5);
-        context.fillRect(this.detector1.posX, this.detector1.posY - 60, 5, 30);
-      }
       if (photon.posX > this.detector0.posX) {
-        if (photon.posY < this.detector0.posY) { // click detector 0
+        if (probability > photon.probabilityBS2) { // click on D0
+          
+          //click effect on D0
+          context.fillRect(this.detector0.posX - 60, this.detector0.posY, 30, 5);
+          context.fillRect(this.detector0.posX, this.detector0.posY + 30, 5, 30);
+          
+          // count up D0 counts
           this.countsD0 += 1;
-        } else { // click detector 1
+        
+        } else { // click on D1
+          
+          //click effect on D1
+          context.fillRect(this.detector1.posX - 60, this.detector1.posY, 30, 5);
+          context.fillRect(this.detector1.posX, this.detector1.posY - 60, 5, 30);
+          
+          // count up D1 counts
           this.countsD1 += 1;
         }
         this.counts += 1;
