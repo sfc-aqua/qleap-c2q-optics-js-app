@@ -36,8 +36,8 @@ class Photon {
 
   drawParticle(context) {
     context.beginPath();
-    context.arc(this.posX, this.posY0, this.radius*this.ratio0, 0, 2 * Math.PI);
-    context.arc(this.posX, this.posY1, this.radius*this.ratio1, 0, 2 * Math.PI);
+    context.arc(this.posX, this.posY0, this.radius * this.ratio0, 0, 2 * Math.PI);
+    context.arc(this.posX, this.posY1, this.radius * this.ratio1, 0, 2 * Math.PI);
     context.fill();
   }
 
@@ -69,7 +69,7 @@ class Photon {
       this.ratio0 = probability;
       // this come from lower side
       this.speedY1 *= -1;
-      this.ratio1 = 1-probability;
+      this.ratio1 = 1 - probability;
     }
   }
 }

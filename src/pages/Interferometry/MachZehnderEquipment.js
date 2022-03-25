@@ -118,26 +118,24 @@ class MachZehnderEquipment {
   fire(context, photon, photonFire, probability) {
     if (photonFire) {
       // photon movement
-      photon.move(this.detector0, this.mirror0, this.bs1, this.bs2, probability); //decide position of photon
-      photon.drawParticle(context); // draw photon particle
-      
+      // decide position of photon
+      photon.move(this.detector0, this.mirror0, this.bs1, this.bs2, probability);
+      // draw photon particle
+      photon.drawParticle(context);
 
       if (photon.posX > this.detector0.posX) {
         if (probability > photon.probabilityBS2) { // click on D0
-          
-          //click effect on D0
+          // click effect on D0
           context.fillRect(this.detector0.posX - 60, this.detector0.posY, 30, 5);
           context.fillRect(this.detector0.posX, this.detector0.posY + 30, 5, 30);
-          
+
           // count up D0 counts
           this.countsD0 += 1;
-        
         } else { // click on D1
-          
-          //click effect on D1
+          // click effect on D1
           context.fillRect(this.detector1.posX - 60, this.detector1.posY, 30, 5);
           context.fillRect(this.detector1.posX, this.detector1.posY - 60, 5, 30);
-          
+
           // count up D1 counts
           this.countsD1 += 1;
         }
