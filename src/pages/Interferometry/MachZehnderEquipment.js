@@ -117,10 +117,8 @@ class MachZehnderEquipment {
 
   fire(context, photon, photonFire, probability) {
     if (photonFire) {
-      // photon movement
       // decide position of photon
       photon.move(this.detector0, this.mirror0, this.bs1, this.bs2, probability);
-      // draw photon particle
       photon.drawParticle(context);
 
       if (photon.posX > this.detector0.posX) {
