@@ -1,36 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import update from "immutability-helper";
 import WaveCanvas from "./WaveCanvas";
 import WaveControl from "./WaveControl";
 
 const NUM_WAVES = 5;
 
-const useWave = (i) => {
-  const [info, setInfo] = useState({
-    name: `wave ${i}`,
-    k: 0.01,
-    omega: 1,
-    amplitude: i * 0.2 + 0.5,
-    phase: 0.1,
-    visible: [1, 2].includes(i),
-    color: `hsl(${(i * 360) / NUM_WAVES}, 100%, 50%)`,
-    selected: false,
-  });
-  const setter = (key, value) => {
-    setInfo({ ...info, [key]: value });
+const useWaves = (numWaves) => {
+  const [waves, setWaves] = useState(
+    Array(numWaves)
+      .fill()
+      .map((_, i) => ({
+        name: `wave ${i}`,
+        k: 0.01,
+        omega: 1,
+        amplitude: i * 0.2 + 0.5,
+        phase: 0.1,
+        visible: [0, 1].includes(i),
+        color: `hsl(${(i * 360) / numWaves}, 100%, 50%)`,
+        selected: false,
+      })),
+  );
+  const setter = (i) => (key, value) => {
+    setWaves((prevWaves) => ({
+      ...prevWaves,
+      [i]: { ...prevWaves[i], [key]: value },
+    }));
+    setWaves((prevWaves) => update(prevWaves, { [i]: { [key]: { $set: value } } }));
   };
-  return [info, setter];
+  return [waves, setter];
 };
 
 function Superposition() {
-  const waves = [useWave(1), useWave(2), useWave(3), useWave(4), useWave(5)];
+  const [waves, setWave] = useWaves(NUM_WAVES);
+  const [playing, setPlaying] = useState(true);
 
-  const drawWave = (ctx, t) => {
+  const drawWave = useCallback((ctx, timestamp) => {
+    const t = playing ? timestamp : 0;
     const { width } = ctx.canvas;
     const composites = Array(width).fill(0);
-    for (let i = 0; i < waves.length; i++) {
+    for (let i = 0; i < NUM_WAVES; i++) {
       const {
         k, amplitude, phase, omega, visible, color, selected,
-      } = waves[i][0];
+      } = waves[i];
 
       ctx.beginPath();
       ctx.lineWidth = selected ? 4 : 1;
@@ -38,12 +49,10 @@ function Superposition() {
         if (visible) {
           ctx.strokeStyle = color;
           const y = Math.cos(k * x - omega * t * 0.005 + phase) * amplitude * 90;
-
           ctx.lineTo(x, y);
           composites[x] += y;
         }
       }
-
       ctx.stroke();
     }
 
@@ -54,15 +63,24 @@ function Superposition() {
       ctx.lineTo(x, composites[x]);
     }
     ctx.stroke();
-  };
+  }, [playing, waves]);
 
   return (
     <div>
       <h1>Superposition of Traveling Waves</h1>
       <WaveCanvas drawFunc={drawWave} />
+      <div>
+        <button type="button" onClick={() => setPlaying(!playing)}>
+          {playing ? "pause" : "play"}
+        </button>
+      </div>
       <div className="waves-wrapper">
-        {waves.map(([info, setWaveInfo]) => (
-          <WaveControl key={info.name} waveInfo={info} setWaveInfo={setWaveInfo} />
+        {Object.keys(waves).map((i) => (
+          <WaveControl
+            key={waves[i].name}
+            waveInfo={waves[i]}
+            setWaveInfo={setWave(i)}
+          />
         ))}
       </div>
       <style>
