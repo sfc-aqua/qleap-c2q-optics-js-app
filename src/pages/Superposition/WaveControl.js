@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 function WaveControl({
   waveInfo: {
-    name, k, omega, amplitude, visible,
+    name, k, omega, amplitude, visible, phase,
   },
   setWaveInfo,
 }) {
@@ -19,7 +19,7 @@ function WaveControl({
       <div>
         <input
           type="checkbox"
-          defaultChecked={visible}
+          checked={visible}
           onChange={(e) => setWaveInfo("visible", e.target.checked)}
         />
         {name}
@@ -33,9 +33,9 @@ function WaveControl({
           disabled={!visible}
           type="range"
           onChange={handleChange("k")}
-          min={0}
-          max={Math.PI * 0.1}
-          step={0.01}
+          min={1}
+          max={10}
+          step={0.1}
           defaultValue={k}
         />
       </div>
@@ -57,7 +57,7 @@ function WaveControl({
       <div>
         <label htmlFor="amplitude">
           amplitude:
-          {amplitude}
+          {amplitude.toPrecision(3)}
         </label>
         <input
           type="range"
@@ -67,6 +67,21 @@ function WaveControl({
           max={2}
           step={0.01}
           defaultValue={amplitude}
+        />
+      </div>
+      <div>
+        <label htmlFor="phase">
+          phase:
+          {phase.toPrecision(3)}
+        </label>
+        <input
+          type="range"
+          disabled={!visible}
+          onChange={handleChange("phase")}
+          min={0}
+          max={2}
+          step={0.01}
+          defaultValue={phase}
         />
       </div>
       <style jsx>
@@ -91,6 +106,7 @@ WaveControl.propTypes = {
     omega: PropTypes.number.isRequired,
     amplitude: PropTypes.number.isRequired,
     visible: PropTypes.bool.isRequired,
+    phase: PropTypes.number.isRequired,
   }).isRequired,
   setWaveInfo: PropTypes.func.isRequired,
 };
