@@ -6,15 +6,11 @@ import WAVE_PRESETS from "./wavePresets";
 import { useWaves, useOriginalWave } from "./hooks";
 import { drawWaves, drawOriginalWave } from "./render";
 import fourierTransform from "./fourierTransform";
-
-const NUM_WAVES = 5;
-const MODE = {
-  SUPERPOSITION: "SUPERPOSITION",
-  DECONSTRUCTION: "DECONSTRUCTION",
-};
+import WavePresetSelector from "./WavePresetSelector";
+import { GRID_SIZE, NUM_WAVES, MODE } from "./constants";
 
 function Superposition() {
-  const [waves, setWave] = useWaves(NUM_WAVES);
+  const [waves, setWaveByIndex] = useWaves(NUM_WAVES);
   const [playing, setPlaying] = useState(false);
   const [mode, setMode] = useState(MODE.SUPERPOSITION);
   const [originalWave, setOriginalWave] = useOriginalWave();
@@ -37,11 +33,14 @@ function Superposition() {
     const harmonics = fourierTransform(NUM_WAVES, points);
     setOriginalWave((prev) => update(prev, { points: { $set: points } }));
     harmonics.forEach(({ amplitude, phase, k }, i) => {
-      setWave(i)("amplitude", Math.abs(amplitude) < 0.0001 ? 0 : amplitude);
-      setWave(i)("phase", phase);
-      setWave(i)("k", k);
-      setWave(i)("omega", k);
-      setWave(i)("visible", Math.abs(amplitude) > 0.0001);
+      setWaveByIndex(i)(
+        "amplitude",
+        Math.abs(amplitude) < 0.0001 ? 0 : amplitude,
+      );
+      setWaveByIndex(i)("phase", phase);
+      setWaveByIndex(i)("k", k);
+      setWaveByIndex(i)("omega", k);
+      setWaveByIndex(i)("visible", Math.abs(amplitude) > 0.0001);
     });
   };
 
@@ -53,7 +52,7 @@ function Superposition() {
     setMode(nextMode);
     if (nextMode === MODE.DECONSTRUCTION) {
       waves.forEach((_wave, i) => {
-        setWave(i)("visible", true);
+        setWaveByIndex(i)("visible", true);
       });
       onOriginalWaveChanged(originalWave.name);
     }
@@ -72,13 +71,7 @@ function Superposition() {
           <option value={MODE.DECONSTRUCTION}>Deconstruction</option>
         </select>
         {mode === MODE.DECONSTRUCTION && (
-          <select onChange={onWavePresetChange} defaultValue="Triangle">
-            {Object.keys(WAVE_PRESETS).map((presetName) => (
-              <option key={presetName} value={presetName}>
-                {presetName}
-              </option>
-            ))}
-          </select>
+          <WavePresetSelector onChange={onWavePresetChange} />
         )}
       </div>
       <div className="waves-wrapper">
@@ -86,7 +79,7 @@ function Superposition() {
           <WaveControl
             key={waves[i].name}
             waveInfo={waves[i]}
-            setWaveInfo={setWave(i)}
+            setWaveInfo={setWaveByIndex(i)}
           />
         ))}
       </div>

@@ -1,18 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import useAnimationFrame from "../../useAnimation";
-
-const gridSize = 100;
+import { GRID_SIZE } from "./constants";
 
 const drawGrid = (ctx, width, height) => {
   ctx.lineWidth = 1;
   ctx.strokeStyle = "gray";
   ctx.beginPath();
-  for (let i = 0; i < width; i += gridSize) {
+  for (let i = 0; i < width; i += GRID_SIZE) {
     ctx.moveTo(i, 0);
     ctx.lineTo(i, height);
   }
-  for (let i = 0; i < height; i += gridSize) {
+  for (let i = 0; i < height; i += GRID_SIZE) {
     ctx.moveTo(0, i);
     ctx.lineTo(width, i);
   }
@@ -25,14 +24,14 @@ const drawAxis = (ctx) => {
   ctx.strokeStyle = "black";
   // y axis
   ctx.beginPath();
-  ctx.moveTo(gridSize * 2, 0);
-  ctx.lineTo(gridSize * 2, height);
+  ctx.moveTo(GRID_SIZE * 2, 0);
+  ctx.lineTo(GRID_SIZE * 2, height);
   ctx.stroke();
 
   // x axis
   ctx.beginPath();
-  ctx.moveTo(0, gridSize * 3);
-  ctx.lineTo(width, gridSize * 3);
+  ctx.moveTo(0, GRID_SIZE * 3);
+  ctx.lineTo(width, GRID_SIZE * 3);
   ctx.stroke();
 };
 
@@ -49,7 +48,7 @@ function WaveCanvas({ drawFunc }) {
     drawGrid(ctx, width, height);
     drawAxis(ctx);
     ctx.save();
-    ctx.translate(gridSize * 2, gridSize * 3);
+    ctx.translate(GRID_SIZE * 2, GRID_SIZE * 3);
     drawFunc(ctx, timestamp / 3);
     ctx.restore();
   });

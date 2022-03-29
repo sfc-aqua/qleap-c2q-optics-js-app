@@ -1,3 +1,5 @@
+import { GRID_SIZE, ORIGINAL_WAVE_COLOR, SUPERPOSED_WAVE_COLOR } from "./constants";
+
 export const drawWaves = (ctx, waves, width, t, showEachWave) => {
   const composites = Array(width).fill(0);
 
@@ -10,9 +12,9 @@ export const drawWaves = (ctx, waves, width, t, showEachWave) => {
     ctx.lineWidth = selected ? 4 : 1;
     for (let x = 0; x < width; x++) {
       if (visible) {
-        const y = Math.cos(k * x * 0.005 * Math.PI - omega * t * 0.01 + phase * 1)
+        const y = Math.cos(k * x * 0.005 * Math.PI - omega * t * 0.01 + phase)
           * amplitude
-          * 100;
+          * GRID_SIZE;
         ctx.strokeStyle = color;
         ctx.lineTo(x, y);
         composites[x] += y;
@@ -23,7 +25,7 @@ export const drawWaves = (ctx, waves, width, t, showEachWave) => {
     }
   }
 
-  ctx.strokeStyle = "black";
+  ctx.strokeStyle = SUPERPOSED_WAVE_COLOR;
   ctx.beginPath();
   for (let x = 0; x < width; x++) {
     ctx.lineTo(x, composites[x]);
@@ -32,11 +34,11 @@ export const drawWaves = (ctx, waves, width, t, showEachWave) => {
 };
 
 export const drawOriginalWave = (ctx, points, width) => {
-  ctx.strokeStyle = "red";
+  ctx.strokeStyle = ORIGINAL_WAVE_COLOR;
   ctx.lineWidth = 1;
   ctx.beginPath();
   for (let i = 0; i < width; i++) {
-    ctx.lineTo(i, points[i % points.length] * 100);
+    ctx.lineTo(i, points[i % points.length] * GRID_SIZE);
   }
   ctx.stroke();
 };
