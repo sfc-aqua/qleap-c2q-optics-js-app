@@ -1,12 +1,13 @@
 import update from "immutability-helper";
 import { useState } from "react";
+import { GRID_SIZE } from "./constants";
 import WAVE_PRESETS from "./wavePresets";
 
 // for the wave that will be deconstructed
 export const useOriginalWave = () => {
   const [waveInfo, setWaveInfo] = useState({
     name: Object.keys(WAVE_PRESETS)[0],
-    points: [],
+    points: Array(GRID_SIZE * 4).fill(0),
     visible: true,
     color: "black",
   });

@@ -11,7 +11,7 @@ const fourierTransform = (numWaves, points) => {
 
   const width = points.length;
   const harmonics = [];
-  for (let term = 0; term < 30; term++) {
+  for (let term = 0; term < 200; term++) {
     const sum = [0, 0];
     for (let i = 0; i < width; i++) {
       const t = i / width; // 0 <= t < 1
@@ -29,7 +29,7 @@ const fourierTransform = (numWaves, points) => {
     const avg = [sum[0] / width, sum[1] / width];
     // polar coordinates for easy processing with sin cos
     const [amplitude, phase] = toPolar(avg);
-    harmonics.push({ amplitude, phase, k: term + 0 });
+    harmonics.push({ amplitude, phase, k: term });
   }
   harmonics.sort((a, b) => Math.abs(b.amplitude) - Math.abs(a.amplitude));
   return harmonics.slice(0, numWaves);

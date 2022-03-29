@@ -35,7 +35,7 @@ const drawAxis = (ctx) => {
   ctx.stroke();
 };
 
-function WaveCanvas({ drawFunc }) {
+function WaveCanvas({ drawFunc, editable, onDraw }) {
   const cvs = useRef(null);
   const wrapper = useRef(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -58,9 +58,30 @@ function WaveCanvas({ drawFunc }) {
     const elem = wrapper.current;
     setSize({ width: elem.clientWidth, height: elem.clientHeight });
   }, [wrapper]);
+
+  const onCanvasDraw = ({ buttons, movementX, nativeEvent: { offsetX, offsetY } }) => {
+    if (
+      !editable
+      || !wrapper.current
+      || buttons !== 1
+      || offsetX <= GRID_SIZE * 2
+      || offsetX > GRID_SIZE * 6
+    ) {
+      return;
+    }
+    const x = offsetX - GRID_SIZE * 2;
+    const y = offsetY - GRID_SIZE * 3;
+    onDraw(x, y / GRID_SIZE, movementX);
+  };
+
   return (
     <div ref={wrapper}>
-      <canvas width={size.width} height={size.height} ref={cvs} />
+      <canvas
+        width={size.width}
+        height={size.height}
+        ref={cvs}
+        onMouseMove={onCanvasDraw}
+      />
       <style jsx>
         {`
           div {
@@ -76,5 +97,8 @@ function WaveCanvas({ drawFunc }) {
 
 WaveCanvas.propTypes = {
   drawFunc: PropTypes.func.isRequired,
+  editable: PropTypes.bool.isRequired,
+  onDraw: PropTypes.func.isRequired,
 };
+
 export default WaveCanvas;
