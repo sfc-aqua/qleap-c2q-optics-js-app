@@ -28,8 +28,16 @@ export const useWaves = (numWaves) => {
         selected: false,
       })),
   );
-  const setter = (i) => (key, value) => {
-    setWaves((prevWaves) => update(prevWaves, { [i]: { [key]: { $set: value } } }));
+  const setter = (i) => (keyOrObj, value) => {
+    if (typeof keyOrObj === "string") {
+      const key = keyOrObj;
+      setWaves((prev) => update(prev, { [i]: { [key]: { $set: value } } }));
+      return;
+    }
+    if (typeof keyOrObj === "object" && value === undefined) {
+      const obj = keyOrObj;
+      setWaves((prev) => update(prev, { [i]: { $merge: obj } }));
+    }
   };
   return [waves, setter];
 };

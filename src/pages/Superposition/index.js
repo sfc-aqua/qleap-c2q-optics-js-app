@@ -29,18 +29,17 @@ function Superposition() {
 
   const onOriginalWaveChanged = (presetName) => {
     const preset = WAVE_PRESETS[presetName];
-    const points = preset(400);
+    const points = preset(GRID_SIZE * 4);
     const harmonics = fourierTransform(NUM_WAVES, points);
     setOriginalWave((prev) => update(prev, { points: { $set: points } }));
     harmonics.forEach(({ amplitude, phase, k }, i) => {
-      setWaveByIndex(i)(
-        "amplitude",
-        Math.abs(amplitude) < 0.0001 ? 0 : amplitude,
-      );
-      setWaveByIndex(i)("phase", phase);
-      setWaveByIndex(i)("k", k);
-      setWaveByIndex(i)("omega", k);
-      setWaveByIndex(i)("visible", Math.abs(amplitude) > 0.0001);
+      setWaveByIndex(i)({
+        phase,
+        k,
+        omega: k,
+        amplitude: Math.abs(amplitude) < 0.0001 ? 0 : amplitude,
+        visible: Math.abs(amplitude) > 0.0001,
+      });
     });
   };
 
