@@ -1,18 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import useAnimationFrame from "../../useAnimation";
-
-const gridSize = 100;
+import { GRID_SIZE } from "./constants";
 
 const drawGrid = (ctx, width, height) => {
   ctx.lineWidth = 1;
   ctx.strokeStyle = "gray";
   ctx.beginPath();
-  for (let i = 0; i < width; i += gridSize) {
+  for (let i = 0; i < width; i += GRID_SIZE) {
     ctx.moveTo(i, 0);
     ctx.lineTo(i, height);
   }
-  for (let i = 0; i < height; i += gridSize) {
+  for (let i = 0; i < height; i += GRID_SIZE) {
     ctx.moveTo(0, i);
     ctx.lineTo(width, i);
   }
@@ -25,18 +24,18 @@ const drawAxis = (ctx) => {
   ctx.strokeStyle = "black";
   // y axis
   ctx.beginPath();
-  ctx.moveTo(gridSize * 2, 0);
-  ctx.lineTo(gridSize * 2, height);
+  ctx.moveTo(GRID_SIZE * 2, 0);
+  ctx.lineTo(GRID_SIZE * 2, height);
   ctx.stroke();
 
   // x axis
   ctx.beginPath();
-  ctx.moveTo(0, gridSize * 3);
-  ctx.lineTo(width, gridSize * 3);
+  ctx.moveTo(0, GRID_SIZE * 3);
+  ctx.lineTo(width, GRID_SIZE * 3);
   ctx.stroke();
 };
 
-function WaveCanvas({ drawFunc }) {
+function WaveCanvas({ drawFunc, editable, onDraw }) {
   const cvs = useRef(null);
   const wrapper = useRef(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -49,7 +48,7 @@ function WaveCanvas({ drawFunc }) {
     drawGrid(ctx, width, height);
     drawAxis(ctx);
     ctx.save();
-    ctx.translate(gridSize * 2, gridSize * 3);
+    ctx.translate(GRID_SIZE * 2, GRID_SIZE * 3);
     drawFunc(ctx, timestamp / 3);
     ctx.restore();
   });
@@ -59,9 +58,30 @@ function WaveCanvas({ drawFunc }) {
     const elem = wrapper.current;
     setSize({ width: elem.clientWidth, height: elem.clientHeight });
   }, [wrapper]);
+
+  const onCanvasDraw = ({ buttons, movementX, nativeEvent: { offsetX, offsetY } }) => {
+    if (
+      !editable
+      || !wrapper.current
+      || buttons !== 1
+      || offsetX <= GRID_SIZE * 2
+      || offsetX > GRID_SIZE * 6
+    ) {
+      return;
+    }
+    const x = offsetX - GRID_SIZE * 2;
+    const y = offsetY - GRID_SIZE * 3;
+    onDraw(x, y / GRID_SIZE, movementX);
+  };
+
   return (
     <div ref={wrapper}>
-      <canvas width={size.width} height={size.height} ref={cvs} />
+      <canvas
+        width={size.width}
+        height={size.height}
+        ref={cvs}
+        onMouseMove={onCanvasDraw}
+      />
       <style jsx>
         {`
           div {
@@ -77,5 +97,8 @@ function WaveCanvas({ drawFunc }) {
 
 WaveCanvas.propTypes = {
   drawFunc: PropTypes.func.isRequired,
+  editable: PropTypes.bool.isRequired,
+  onDraw: PropTypes.func.isRequired,
 };
+
 export default WaveCanvas;
