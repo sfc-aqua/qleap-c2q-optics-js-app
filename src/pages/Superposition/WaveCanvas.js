@@ -33,6 +33,9 @@ const drawAxis = (ctx) => {
   ctx.moveTo(0, GRID_SIZE * 3);
   ctx.lineTo(width, GRID_SIZE * 3);
   ctx.stroke();
+
+  ctx.font = "24px serif";
+  ctx.fillText("O", GRID_SIZE * 2 + 6, GRID_SIZE * 3 + 24);
 };
 
 function WaveCanvas({ drawFunc, editable, onDraw }) {
