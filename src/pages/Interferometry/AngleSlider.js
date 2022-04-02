@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 function AngleSlider({ angle, onChange }) {
   return (
@@ -25,5 +26,10 @@ function AngleSlider({ angle, onChange }) {
     </div>
   );
 }
+
+AngleSlider.propTypes = {
+  angle: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default AngleSlider;
