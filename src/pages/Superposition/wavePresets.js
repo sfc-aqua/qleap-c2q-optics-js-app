@@ -24,6 +24,11 @@ const WAVE_PRESETS = {
     }
     return points;
   },
+  Delta: (width) => {
+    const points = Array(width).fill(0);
+    points[Math.floor(width * 0.5)] = -100;
+    return points;
+  },
   Cosine: (width) => {
     const points = [];
     for (let i = 0; i < width; i++) {
