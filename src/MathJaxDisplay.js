@@ -17,7 +17,7 @@ function MathJaxDisplay({
         setLastTimeUpdated(Date.now());
         setShouldUpdate(false);
       }
-      if (Date.now() - lastTimeUpdated > 200) {
+      if (Date.now() - lastTimeUpdated > 500) {
         setShouldUpdate(true);
       }
     }, 100);

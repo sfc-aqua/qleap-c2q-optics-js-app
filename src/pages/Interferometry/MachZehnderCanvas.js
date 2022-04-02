@@ -100,7 +100,6 @@ function MachZehnderCanvas({
       width={width}
       height={height}
       ref={cvs}
-      style={{ border: "solid 1px red" }}
     />
 
   );

@@ -94,17 +94,23 @@ function Interferometry() {
           type="button"
           onClick={handleShowOperators}
         >
-          Show Operators
+          {showOperators ? "Hide" : "Show"}
+          {" "}
+          Operators
         </button>
         <button
           type="button"
           onClick={handleShowStateVectors}
         >
-          Show State vectors
+          {showStateVectors ? "Hide" : "Show"}
+          {" "}
+          State vectors
         </button>
         <div>
           <button type="button" onClick={handleShowSample}>
-            Show Sample
+            {showSample ? "Hide" : "Show"}
+            {" "}
+            Sample
           </button>
           <AngleSlider angle={angle} onChange={handleSliderChange} />
           {radian.toFixed(1)}
