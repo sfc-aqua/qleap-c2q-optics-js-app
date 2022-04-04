@@ -100,7 +100,6 @@ function MachZehnderCanvas({
       width={width}
       height={height}
       ref={cvs}
-      style={{ border: "solid 1px red" }}
     />
 
   );
@@ -110,5 +109,13 @@ MachZehnderCanvas.propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
   }).isRequired,
+  photonFire: PropTypes.bool.isRequired,
+  setFirePhoton: PropTypes.func.isRequired,
+  shots: PropTypes.number.isRequired,
+  angle: PropTypes.number.isRequired,
+  showSample: PropTypes.bool.isRequired,
+  setCountStatus: PropTypes.func.isRequired,
+  resetCounts: PropTypes.bool.isRequired,
+  setResetCounts: PropTypes.func.isRequired,
 };
 export default MachZehnderCanvas;
