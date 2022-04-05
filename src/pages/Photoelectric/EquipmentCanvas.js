@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import useAnimationFrame from "../../useAnimation";
 
-function drawMysteryMetal(ctx, width, height) {
-  const METAL_WIDTH = 300;
-  const METAL_HEIGHT = 200;
+const METAL_WIDTH = 300;
+const METAL_HEIGHT = 200;
+
+function drawMysteryMetal(ctx, width) {
   const LEFT_OFFSET = (width - METAL_WIDTH) * 0.5;
 
   ctx.beginPath();
@@ -36,8 +37,62 @@ function drawMysteryMetal(ctx, width, height) {
   ctx.fillRect(LEFT_OFFSET + METAL_WIDTH + 30, 10, 20, METAL_HEIGHT - 20);
 }
 
-function drawCircuit(ctx, width, height) {
+function drawRegistor(ctx, x, y, width) {
+  const scale = width / 70;
   ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x + 5 * scale, y);
+  ctx.lineTo(x + 10 * scale, y - 10 * scale);
+  ctx.lineTo(x + 20 * scale, y + 10 * scale);
+  ctx.lineTo(x + 30 * scale, y - 10 * scale);
+  ctx.lineTo(x + 40 * scale, y + 10 * scale);
+  ctx.lineTo(x + 50 * scale, y - 10 * scale);
+  ctx.lineTo(x + 60 * scale, y + 10 * scale);
+  ctx.lineTo(x + 65 * scale, y);
+  ctx.lineTo(x + 70 * scale, y);
+  ctx.stroke();
+}
+
+function drawBattery(ctx, x, y, width) {
+  const scale = width / 50;
+  ctx.fillStyle = "black";
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x + 5 * scale, y);
+  ctx.moveTo(x + 5 * scale, y - 50);
+  ctx.lineTo(x + 5 * scale, y + 50);
+  ctx.fillRect(x + 10 * scale, y - 25, 5 * scale, 50);
+
+  ctx.moveTo(x + 10 * scale, y);
+  ctx.lineTo(x + 20 * scale, y);
+  ctx.moveTo(x + 20 * scale, y - 50);
+  ctx.lineTo(x + 20 * scale, y + 50);
+  ctx.fillRect(x + 25 * scale, y - 25, 5 * scale, 50);
+
+  ctx.moveTo(x + 25 * scale, y);
+  ctx.lineTo(x + 35 * scale, y);
+  ctx.moveTo(x + 35 * scale, y - 50);
+  ctx.lineTo(x + 35 * scale, y + 50);
+  ctx.fillRect(x + 40 * scale, y - 25, 5 * scale, 50);
+  ctx.moveTo(x + 40 * scale, y);
+  ctx.lineTo(x + 50 * scale, y);
+  ctx.stroke();
+}
+
+function drawCircuit(ctx, width) {
+  const LEFT_OFFSET = (width - METAL_WIDTH) * 0.5;
+
+  ctx.beginPath();
+  ctx.moveTo(LEFT_OFFSET - 100, METAL_HEIGHT * 0.5);
+  ctx.lineTo(100, METAL_HEIGHT * 0.5);
+  ctx.lineTo(100, METAL_HEIGHT * 2);
+  ctx.lineTo(width - 200, METAL_HEIGHT * 2);
+  ctx.lineTo(width - 200, METAL_HEIGHT * 0.5);
+  ctx.lineTo(LEFT_OFFSET + METAL_WIDTH + 50, METAL_HEIGHT * 0.5);
+  ctx.stroke();
+
+  drawRegistor(ctx, 50, 500, 150);
+  drawBattery(ctx, 250, 500, 100);
 }
 
 function EquipmentCanvas({ drawFunc }) {
