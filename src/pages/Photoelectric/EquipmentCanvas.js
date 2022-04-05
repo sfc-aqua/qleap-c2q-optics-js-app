@@ -79,6 +79,30 @@ function drawBattery(ctx, x, y, width) {
   ctx.stroke();
 }
 
+const RADIUS = 30;
+function drawCircleWithChar(ctx, x, y, char) {
+  ctx.clearRect(x - RADIUS, y - RADIUS, RADIUS * 2, RADIUS * 2);
+  ctx.beginPath();
+  ctx.arc(x, y, RADIUS, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.font = `${RADIUS}px Arial`;
+  ctx.fillText(char, x - RADIUS * 0.375, y + RADIUS * 0.375);
+}
+
+function drawAmmeter(ctx, x, y) {
+  drawCircleWithChar(ctx, x, y, "A");
+}
+
+function drawVoltmeter(ctx, x, y) {
+  drawCircleWithChar(ctx, x, y, "V");
+}
+
+function drawLine(ctx, sx, sy, dx, dy) {
+  ctx.beginPath();
+  ctx.moveTo(sx, sy);
+  ctx.lineTo(dx, dy);
+  ctx.stroke();
+}
 function drawCircuit(ctx, width) {
   const LEFT_OFFSET = (width - METAL_WIDTH) * 0.5;
 
@@ -91,8 +115,17 @@ function drawCircuit(ctx, width) {
   ctx.lineTo(LEFT_OFFSET + METAL_WIDTH + 50, METAL_HEIGHT * 0.5);
   ctx.stroke();
 
-  drawRegistor(ctx, 50, 500, 150);
-  drawBattery(ctx, 250, 500, 100);
+  drawAmmeter(ctx, width - 200, METAL_HEIGHT);
+  drawVoltmeter(ctx, width - 300, 400);
+  drawLine(ctx, 100, 500, 150, 500);
+  drawRegistor(ctx, 150, 500, 150);
+
+  drawLine(ctx, 300, 500, 350, 500);
+  drawBattery(ctx, 350, 500, 100);
+  drawLine(ctx, 450, 500, 450 + METAL_WIDTH, 500);
+  drawLine(ctx, 450 + METAL_WIDTH, 500, 450 + METAL_WIDTH, 580);
+  drawLine(ctx, 450 + METAL_WIDTH, 580, 100, 580);
+  drawLine(ctx, 100, 580, 100, 500);
 }
 
 function EquipmentCanvas({ drawFunc }) {
