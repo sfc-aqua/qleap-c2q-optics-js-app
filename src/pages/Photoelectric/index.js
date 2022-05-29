@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Decimal from "decimal.js";
 import update from "immutability-helper";
 import {
   LineChart,
@@ -19,15 +20,19 @@ const METALS = {
 
 const VOLTAGE_STEP = 0.1;
 const VOLTAGE_MAX = 3;
-
+// x10^14 Hz
+const FREQ_STEP = 0.1;
+const FREQ_MAX = 20;
 // planck constant
 const H = 6.62607004e-34;
 // unit of electron volt
 const E = 1.6021766208e-19;
+
+const toFixed = (value) => +new Decimal(value).toPrecision(3);
 const DEFAULT_DATA = [];
-for (let i = 0; i < VOLTAGE_MAX; i += VOLTAGE_STEP) {
+for (let i = 0; i < FREQ_MAX; i += FREQ_STEP) {
   DEFAULT_DATA.push({
-    name: Math.round(i / VOLTAGE_STEP) * VOLTAGE_STEP,
+    freq: toFixed(i),
     energyKinetic: null,
   });
 }
@@ -46,19 +51,18 @@ function Photoelectric() {
   const ejected = energyKinetic > 0 && energyKinetic - energyStopping > 0;
 
   useEffect(() => {
-    if (params.voltage <= 0) return;
     let ek = energyKinetic;
     if (!ejected) {
       ek = 0;
     }
-    const index = data.findIndex((e) => e.name === params.voltage);
+    const index = data.findIndex((e) => e.freq === params.frequency);
     if (index === -1) {
       return;
     }
     const prevEk = data[index].energyKinetic;
-    if (ek !== 0 && (prevEk === null || prevEk > ek)) {
+    if (prevEk === null || prevEk > ek || ek !== 0) {
       const newData = update(data, {
-        [index]: { energyKinetic: { $set: ek } },
+        [index]: { energyKinetic: { $set: toFixed(ek) } },
       });
       setData(newData);
     }
@@ -73,11 +77,11 @@ function Photoelectric() {
           <Parameter
             name="frequency"
             min={1}
-            max={20}
-            step={0.01}
+            max={FREQ_MAX}
+            step={FREQ_STEP}
             value={params.frequency}
             unit="x10^14 Hz"
-            onChange={(value) => setParams((p) => update(p, { frequency: { $set: value } }))}
+            onChange={(value) => setParams((p) => update(p, { frequency: { $set: toFixed(value) } }))}
           />
           <Parameter
             name="voltage"
@@ -86,13 +90,28 @@ function Photoelectric() {
             step={VOLTAGE_STEP}
             value={params.voltage}
             unit=" V"
-            onChange={(value) => setParams((p) => update(p, { voltage: { $set: value } }))}
+            onChange={(value) => setParams((p) => update(p, { voltage: { $set: toFixed(value) } }))}
           />
         </div>
-        <LineChart width={500} height={300} data={data}>
+        <LineChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{ bottom: 20, left: 50 }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis
+            dataKey="freq"
+            label={{ position: "bottom", value: "Frequency 10^14 [Hz]" }}
+          />
+          <YAxis
+            label={{
+              value: "　　　　Kinetic Energy [eV]",
+              angle: -90,
+              position: "insideBottomLeft",
+              offset: -20,
+            }}
+          />
           <Tooltip />
           <Line
             type="monotone"
