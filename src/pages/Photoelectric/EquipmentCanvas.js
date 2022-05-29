@@ -38,7 +38,12 @@ function drawIncidentRays(ctx, width, height, color, lineWidth) {
   drawArrow(ctx, LEFT_OFFSET + 200, 40, LEFT_OFFSET, 160, color, lineWidth);
 }
 
-function drawMysteryMetal(ctx, width, electronColor = "red", electronWidth = 1) {
+function drawMysteryMetal(
+  ctx,
+  width,
+  electronColor = "red",
+  electronWidth = 1,
+) {
   const LEFT_OFFSET = (width - METAL_WIDTH) * 0.5;
   ctx.strokeStyle = "black";
   ctx.lineWidth = 2;
@@ -149,18 +154,22 @@ function drawBattery(ctx, x, y, width) {
 
 const RADIUS = 30;
 
-function drawCircleWithChar(ctx, x, y, char) {
+function drawCircleWithChar(ctx, x, y, char, circleFillColor = "white") {
   ctx.lineWidth = 1;
   ctx.clearRect(x - RADIUS, y - RADIUS, RADIUS * 2, RADIUS * 2);
   ctx.beginPath();
   ctx.arc(x, y, RADIUS, 0, 2 * Math.PI);
   ctx.stroke();
+  const prevFillStyle = ctx.fillStyle;
+  ctx.fillStyle = circleFillColor;
+  ctx.fill();
+  ctx.fillStyle = prevFillStyle;
   ctx.font = `${RADIUS}px Arial`;
   ctx.fillText(char, x - RADIUS * 0.375, y + RADIUS * 0.375);
 }
 
-function drawAmmeter(ctx, x, y) {
-  drawCircleWithChar(ctx, x, y, "A");
+function drawAmmeter(ctx, x, y, ejected) {
+  drawCircleWithChar(ctx, x, y, "A", ejected ? "red" : "white");
 }
 
 function drawVoltmeter(ctx, x, y) {
@@ -174,7 +183,7 @@ function drawLine(ctx, sx, sy, dx, dy) {
   ctx.stroke();
 }
 
-function drawCircuit(ctx, width) {
+function drawCircuit(ctx, width, _height, ejected) {
   const LEFT_OFFSET = (width - METAL_WIDTH) * 0.5;
   ctx.strokeStyle = "black";
   ctx.fillStyle = "black";
@@ -187,8 +196,7 @@ function drawCircuit(ctx, width) {
   ctx.lineTo(width - 200, METAL_HEIGHT * 0.5);
   ctx.lineTo(LEFT_OFFSET + METAL_WIDTH + 50, METAL_HEIGHT * 0.5);
   ctx.stroke();
-
-  drawAmmeter(ctx, width - 200, METAL_HEIGHT);
+  drawAmmeter(ctx, width - 200, METAL_HEIGHT, ejected);
   drawVoltmeter(ctx, width - 300, 300);
   drawLine(ctx, 100, 400, 150, 400);
   drawRegistor(ctx, 150, 400, 150);
@@ -201,7 +209,7 @@ function drawCircuit(ctx, width) {
   drawLine(ctx, 100, 480, 100, 400);
 }
 
-function EquipmentCanvas({ drawFunc }) {
+function EquipmentCanvas({ drawFunc, ejected }) {
   const cvs = useRef(null);
   const wrapper = useRef(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -214,7 +222,7 @@ function EquipmentCanvas({ drawFunc }) {
     ctx.save();
     ctx.translate(0, 100);
     drawMysteryMetal(ctx, width, "red", 1);
-    drawCircuit(ctx, width, height);
+    drawCircuit(ctx, width, height, ejected);
     ctx.restore();
     drawIncidentRays(ctx, width, height, "orange", 1);
     ctx.save();
@@ -247,5 +255,6 @@ function EquipmentCanvas({ drawFunc }) {
 
 EquipmentCanvas.propTypes = {
   drawFunc: PropTypes.func.isRequired,
+  ejected: PropTypes.bool.isRequired,
 };
 export default EquipmentCanvas;

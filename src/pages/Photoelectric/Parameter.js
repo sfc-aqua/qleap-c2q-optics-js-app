@@ -28,12 +28,15 @@ function Parameter({
       />
       <style jsx>
         {`
+        input {
+          width: 15rem;
+        }
           .param-name {
             width: 6rem;
             display: inline-block;
           }
           .param-value {
-            width: 2rem;
+            width: 8.5rem;
             display: inline-block;
           }
         `}
