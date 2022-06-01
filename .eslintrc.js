@@ -35,6 +35,7 @@ module.exports = {
     "react/prop-types": ["warn"],
     "no-unused-vars": ["error", { varsIgnorePattern: "_" }],
     "jsx-a11y/label-has-associated-control": ["warn"],
+    "max-len": ["off"]
   },
   settings: {
     react: {

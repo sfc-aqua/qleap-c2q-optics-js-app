@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function Parameter({
-  name, min, max, step, value, onChange,
+  name, min, max, step, value, onChange, unit,
 }) {
   return (
     <div>
@@ -12,7 +12,10 @@ function Parameter({
           :
           {" "}
         </span>
-        <span className="param-value">{value}</span>
+        <span className="param-value">
+          {value}
+          {unit}
+        </span>
       </label>
       <input
         type="range"
@@ -25,12 +28,15 @@ function Parameter({
       />
       <style jsx>
         {`
+        input {
+          width: 15rem;
+        }
           .param-name {
             width: 6rem;
             display: inline-block;
           }
           .param-value {
-            width: 2rem;
+            width: 8.5rem;
             display: inline-block;
           }
         `}
@@ -46,6 +52,10 @@ Parameter.propTypes = {
   step: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
+  unit: PropTypes.string,
+};
+Parameter.defaultProps = {
+  unit: "",
 };
 
 export default Parameter;
