@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import AngleSlider from "./AngleSlider";
 import MachZehnderCanvas from "./MachZehnderCanvas";
-import MathJaxDisplay from "../../MathJaxDisplay";
+import bs1Img from "./BS1.png";
+import bs2Img from "./BS2.png";
+import sampleImg from "./sampleImg.png";
+import statevectorLeft from "./statevector_left.png";
+import statevectorMiddle from "./statevector_middle.png";
+import statevectorRight from "./statevector_right.png";
 
 function Interferometry() {
   // handler for fire photon
@@ -64,15 +69,57 @@ function Interferometry() {
           resetCounts={resetCounts}
           setResetCounts={setResetCounts}
         />
-        <MathJaxDisplay source={"\\[\\LARGE\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{cc} 1 & 1  \\\\ 1 & -1 \\end{array}\\right)\\]"} x={210} y={120} hidden={!showOperators} />
-        <MathJaxDisplay source={"\\[\\LARGE\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{cc} -1 & 1  \\\\ 1 & 1 \\end{array}\\right)\\]"} x={610} y={120} hidden={!showOperators} />
-        <MathJaxDisplay source={`\\[\\LARGE\\left(\\begin{array}{cc} 1 & 0  \\\\ 0 & e^{i${radian.toFixed(1)}\\pi} \\end{array}\\right)\\]`} x={290} y={480} hidden={!showOperators || !showSample} />
-
-        <MathJaxDisplay source={"\\[\\LARGE\\left(\\begin{array}{c} 1 \\\\ 0 \\end{array}\\right)\\]"} x={130} y={240} hidden={!showStateVectors} />
-        <MathJaxDisplay source={"\\[\\LARGE\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{c} 1 \\\\ -1 \\end{array}\\right)\\]"} x={420} y={250} hidden={!showStateVectors || showSample} />
-        <MathJaxDisplay source={`\\[\\LARGE\\frac{1}{\\sqrt{2}}\\left(\\begin{array}{c} 1 \\\\ e^{i${radian.toFixed(1)}\\pi} \\end{array}\\right)\\]`} x={410} y={250} hidden={!showStateVectors || !showSample} />
-        <MathJaxDisplay source={"\\[\\LARGE\\left(\\begin{array}{c} 1 \\\\ 0 \\end{array}\\right)\\]"} x={790} y={250} hidden={!showStateVectors || showSample} />
-        <MathJaxDisplay source={`\\[\\LARGE\\frac{1}{2}\\left(\\begin{array}{c} 1 + e^{i${radian.toFixed(1)}\\pi}\\\\ 1 - e^{i${radian.toFixed(1)}\\pi} \\end{array}\\right)\\]`} x={790} y={250} hidden={!showStateVectors || !showSample} />
+        <div className="display-png">
+          <img
+            src={bs1Img}
+            alt="Operator of BS1"
+            style={{
+              position: "absolute", top: 140, left: 210, display: showOperators ? "" : "none",
+            }}
+            height="60"
+          />
+          <img
+            src={bs2Img}
+            alt="Operator of BS2"
+            style={{
+              position: "absolute", top: 140, left: 610, display: showOperators ? "" : "none",
+            }}
+            height="60"
+          />
+          <img
+            src={sampleImg}
+            alt="Operator of Sample"
+            style={{
+              position: "absolute", top: 500, left: 200, display: showOperators ? "" : "none",
+            }}
+            height="60"
+          />
+          <img
+            src={statevectorLeft}
+            alt="Initial State vector"
+            style={{
+              position: "absolute", top: 260, left: 100, display: showStateVectors ? "" : "none",
+            }}
+            height="80"
+          />
+          <img
+            src={statevectorMiddle}
+            alt="state vector after BS0"
+            style={{
+              position: "absolute", top: 260, left: 400, display: showStateVectors ? "" : "none",
+            }}
+            height="80"
+          />
+          <img
+            src={statevectorRight}
+            alt="state vector after BS1"
+            sizes="100px"
+            style={{
+              position: "absolute", top: 260, left: 800, display: showStateVectors ? "" : "none",
+            }}
+            height="80"
+          />
+        </div>
       </div>
 
       <div className="control-plane">
