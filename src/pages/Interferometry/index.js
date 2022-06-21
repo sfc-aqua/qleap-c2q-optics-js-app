@@ -32,14 +32,6 @@ function Interferometry() {
     setFire(false);
   };
 
-  // show sample
-  const [showSample, setShowSample] = useState(false);
-  const handleShowSample = () => {
-    setShowSample(!showSample);
-    setResetCounts(true);
-    setFire(false);
-  };
-
   // user input for number of photon shots
   const [shots, setShots] = useState(1);
   const handleNumberOfShots = (e) => {
@@ -64,7 +56,6 @@ function Interferometry() {
           setFirePhoton={setFirePhoton}
           shots={shots}
           angle={angle}
-          showSample={showSample}
           setCountStatus={setCountStatus}
           resetCounts={resetCounts}
           setResetCounts={setResetCounts}
@@ -154,11 +145,6 @@ function Interferometry() {
           State vectors
         </button>
         <div>
-          <button type="button" onClick={handleShowSample}>
-            {showSample ? "Hide" : "Show"}
-            {" "}
-            Sample
-          </button>
           <AngleSlider angle={angle} onChange={handleSliderChange} />
           {radian.toFixed(1)}
         </div>

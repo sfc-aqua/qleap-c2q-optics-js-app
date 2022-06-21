@@ -92,7 +92,7 @@ class MachZehnderEquipment {
     this.sample = new Sample(60, 40);
   }
 
-  draw(context, angle, showSample) {
+  draw(context, angle) {
     // show objects
     this.source.draw(context);
     this.bs1.draw(context);
@@ -101,10 +101,7 @@ class MachZehnderEquipment {
     this.mirror1.draw(context);
     this.detector0.draw(context);
     this.detector1.draw(context);
-
-    if (showSample) {
-      this.sample.draw(context, angle, this.bs1, this.mirror1);
-    }
+    this.sample.draw(context, angle, this.bs1, this.mirror1);
 
     drawThePhotonPath(context, this.source, this.bs1);
     drawThePhotonPath(context, this.bs1, this.mirror0);

@@ -40,7 +40,7 @@ const d1Probability = ["0", "2", "10", "21", "35", "50", "65", "79", "90", "98",
 function MachZehnderCanvas({
   size: { width, height },
   photonFire, setFirePhoton,
-  shots, angle, showSample,
+  shots, angle,
   setCountStatus,
   resetCounts, setResetCounts,
 }) {
@@ -54,7 +54,7 @@ function MachZehnderCanvas({
     ctx.clearRect(0, 0, width, height);
 
     // show the MachZehnder Equipment
-    equipment.draw(ctx, angle, showSample);
+    equipment.draw(ctx, angle);
 
     // Photon Animation
     photonArray.forEach((photon) => equipment.fire(ctx, photon, photonFire, probability));
@@ -113,7 +113,6 @@ MachZehnderCanvas.propTypes = {
   setFirePhoton: PropTypes.func.isRequired,
   shots: PropTypes.number.isRequired,
   angle: PropTypes.number.isRequired,
-  showSample: PropTypes.bool.isRequired,
   setCountStatus: PropTypes.func.isRequired,
   resetCounts: PropTypes.bool.isRequired,
   setResetCounts: PropTypes.func.isRequired,
