@@ -63,11 +63,20 @@ function MachZehnderCanvas({
       equipment.counts = 0;
     }
 
+    // Arguments of Operator
+    ctx.font = `13px sans-serif`;
+    ctx.fillText((angle*0.1).toFixed(1), 340, 540);
+    ctx.font = `20px sans-serif`;
+    ctx.fillText((angle*0.1).toFixed(1), 535, 315);
+    ctx.fillText((angle*0.1).toFixed(1), 995, 315);
+    ctx.fillText((angle*0.1).toFixed(1), 995, 275);
+    // ctx.fillText(equipment.countsD1, 1250, 500);
+
     //  theoretical probability to click detector
     ctx.font = "40px Arial";
     ctx.textAlign = "center";
-    ctx.strokeText(`${d0Probability[angle]}%`, equipment.detector0.posX + 110, equipment.detector0.posY);
-    ctx.strokeText(`${d1Probability[angle]}%`, equipment.detector1.posX + 110, equipment.detector1.posY);
+    ctx.fillText(`${d0Probability[angle]}%`, equipment.detector0.posX + 110, equipment.detector0.posY);
+    ctx.fillText(`${d1Probability[angle]}%`, equipment.detector1.posX + 110, equipment.detector1.posY);
 
     // show counts of clicked detector as a discrete probability distribution
     ctx.strokeRect(1300, 50, -210, 500);
