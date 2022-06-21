@@ -3,7 +3,7 @@ import AngleSlider from "./AngleSlider";
 import MachZehnderCanvas from "./MachZehnderCanvas";
 import bs1Img from "./BS1.png";
 import bs2Img from "./BS2.png";
-import sampleImg from "./sample.png";
+import sampleImg from "./sampleImg.png";
 import statevectorLeft from "./statevector_left.png";
 import statevectorMiddle from "./statevector_middle.png";
 import statevectorRight from "./statevector_right.png";
@@ -98,7 +98,7 @@ function Interferometry() {
             src={statevectorLeft}
             alt="Initial State vector"
             style={{
-              position: "absolute", top: 260, left: 50, display: showStateVectors ? "" : "none",
+              position: "absolute", top: 260, left: 100, display: showStateVectors ? "" : "none",
             }}
             height="80"
           />
