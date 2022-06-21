@@ -71,7 +71,7 @@ function MachZehnderCanvas({
     }
     if (showStateVectors){
       ctx.font = `20px sans-serif`;
-      ctx.fillText((angle*0.1).toFixed(1), 535, 315);
+      ctx.fillText((angle*0.1+1).toFixed(1), 535, 315);
       ctx.fillText((angle*0.1).toFixed(1), 995, 315);
       ctx.fillText((angle*0.1).toFixed(1), 995, 275);
     }
