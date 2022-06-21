@@ -59,6 +59,8 @@ function Interferometry() {
           setCountStatus={setCountStatus}
           resetCounts={resetCounts}
           setResetCounts={setResetCounts}
+          showOperators={showOperators}
+          showStateVectors={showStateVectors}
         />
         <div className="display-png">
           <img

@@ -43,6 +43,7 @@ function MachZehnderCanvas({
   shots, angle,
   setCountStatus,
   resetCounts, setResetCounts,
+  showOperators, showStateVectors,
 }) {
   const cvs = useRef(null);
   const photonArray = generatePhotons(shots, angle);
@@ -64,13 +65,17 @@ function MachZehnderCanvas({
     }
 
     // Arguments of Operator
-    ctx.font = `13px sans-serif`;
-    ctx.fillText((angle*0.1).toFixed(1), 340, 540);
-    ctx.font = `20px sans-serif`;
-    ctx.fillText((angle*0.1).toFixed(1), 535, 315);
-    ctx.fillText((angle*0.1).toFixed(1), 995, 315);
-    ctx.fillText((angle*0.1).toFixed(1), 995, 275);
-    // ctx.fillText(equipment.countsD1, 1250, 500);
+    if (showOperators){
+      ctx.font = `13px sans-serif`;
+      ctx.fillText((angle*0.1).toFixed(1), 340, 540);
+    }
+    if (showStateVectors){
+      ctx.font = `20px sans-serif`;
+      ctx.fillText((angle*0.1).toFixed(1), 535, 315);
+      ctx.fillText((angle*0.1).toFixed(1), 995, 315);
+      ctx.fillText((angle*0.1).toFixed(1), 995, 275);
+    }
+    
 
     //  theoretical probability to click detector
     ctx.font = "40px Arial";
