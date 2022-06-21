@@ -66,14 +66,14 @@ function MachZehnderCanvas({
 
     // Arguments of Operator
     if (showOperators){
-      ctx.font = `13px sans-serif`;
+      ctx.font = `13px Arial`;
       ctx.fillText((angle*0.1).toFixed(1), 340, 540);
     }
     if (showStateVectors){
-      ctx.font = `20px sans-serif`;
+      ctx.font = `20px Arial`;
       ctx.fillText((angle*0.1+1).toFixed(1), 535, 315);
-      ctx.fillText((angle*0.1).toFixed(1), 995, 315);
-      ctx.fillText((angle*0.1).toFixed(1), 995, 275);
+      ctx.fillText((angle*0.1+1).toFixed(1), 990, 315);
+      ctx.fillText((angle*0.1+1).toFixed(1), 990, 275);
     }
     
 
