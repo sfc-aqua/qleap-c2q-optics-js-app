@@ -76,9 +76,9 @@ function InterferometryControl({
         <input
           type="range"
           name="reflective index"
-          min="0"
-          max="1000"
-          step="10"
+          min="1"
+          max="100"
+          step="1"
           value={shots}
           onChange={handleNumberOfShots}
           disabled={fire}
