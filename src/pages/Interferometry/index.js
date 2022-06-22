@@ -80,7 +80,6 @@ function Interferometry() {
           <ImageDisplay source={statevectorRight} x={800} y={260} height={80} show={showStateVectors}/>
           <div style={{position:"absolute", top:275, left: 990, display: showStateVectors ? "" : "none"}}>{(radian+1).toFixed(1)}</div>
           <div style={{position:"absolute", top:310, left: 990, display: showStateVectors ? "" : "none"}}>{(radian+1).toFixed(1)}</div>
-          
         </div>
       </div>
       

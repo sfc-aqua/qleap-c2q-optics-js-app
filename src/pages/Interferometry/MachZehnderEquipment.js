@@ -4,6 +4,8 @@ import Sample from "./Sample";
 
 // show path of photon
 const drawThePhotonPath = (context, originObj, destinationObj, lineWidth = 1) => {
+  context.save()
+  context.strokeStyle = "#8b9dc3";
   context.beginPath();
   context.lineWidth = 5;
   context.setLineDash([10, 5]);
@@ -12,6 +14,7 @@ const drawThePhotonPath = (context, originObj, destinationObj, lineWidth = 1) =>
   context.stroke();
   context.lineWidth = lineWidth;
   context.setLineDash([]);
+  context.restore()
 };
 
 class MachZehnderEquipment {
@@ -125,16 +128,20 @@ class MachZehnderEquipment {
       if (photon.posX > this.detector0.posX) {
         if (probability > photon.probabilityBS2) { // click on D0
           // click effect on D0
+          context.save()
+          context.fillStyle="#f7f7f7"
           context.fillRect(this.detector0.posX - 60, this.detector0.posY, 30, 5);
           context.fillRect(this.detector0.posX, this.detector0.posY + 30, 5, 30);
-
+          context.restore()
           // count up D0 counts
           this.countsD0 += 1;
         } else { // click on D1
           // click effect on D1
+          context.save()
+          context.fillStyle="#f7f7f7"
           context.fillRect(this.detector1.posX - 60, this.detector1.posY, 30, 5);
           context.fillRect(this.detector1.posX, this.detector1.posY - 60, 5, 30);
-
+          context.restore()
           // count up D1 counts
           this.countsD1 += 1;
         }
