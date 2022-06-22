@@ -48,13 +48,14 @@ class Photon {
     context.fill();
     context.restore();
   }
+
   drawEntanglement(context, width) {
     context.save();
-    context.beginPath(); 
+    context.beginPath();
     context.moveTo(this.posX, this.posY0);
     context.lineTo(this.posX, this.posY1);
     context.strokeStyle = this.color1;
-    context.lineWidth=width;
+    context.lineWidth = width;
     context.stroke();
     context.restore();
   }
@@ -84,10 +85,10 @@ class Photon {
     if (this.posX === bs2.posX) {
       // this come from upper side
       this.speedY0 *= -1;
-      this.ratio0 = (probability)**2;
+      this.ratio0 = (probability) ** 2;
       // this come from lower side
       this.speedY1 *= -1;
-      this.ratio1 = (1 - probability)**2;
+      this.ratio1 = (1 - probability) ** 2;
     }
   }
 }
