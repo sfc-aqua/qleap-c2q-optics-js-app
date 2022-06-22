@@ -19,7 +19,18 @@ function InterferometryControl({
     cursor: "pointer",
     width: "200px",
     height: "60px",
-  };
+  }
+  disabledButtonStyle = {
+    background: "#grey",
+    color: "grey",
+    opacity: 0.7,
+    fontSize: "20",
+    padding: "10px 10px",
+    borderRadius: "5px",
+    margin: "10px 2px",
+    width: "200px",
+    height: "60px",
+  }
   return (
     <div className="control-plane">
       <h2>Control Experiments</h2>
@@ -35,7 +46,8 @@ function InterferometryControl({
         <button
           type="button"
           onClick={handleShowOperators}
-          style={buttonStyle}
+          style={fire ? disabledButtonStyle : buttonStyle}
+          disabled={fire}
         >
           {showOperators ? "Hide" : "Show"}
           {" "}
@@ -44,7 +56,8 @@ function InterferometryControl({
         <button
           type="button"
           onClick={handleShowStateVectors}
-          style={buttonStyle}
+          style={fire ? disabledButtonStyle : buttonStyle}
+          disabled={fire}
         >
           {showStateVectors ? "Hide" : "Show"}
           {" "}
