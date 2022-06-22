@@ -14,6 +14,8 @@ class Photon {
     this.ratio0 = 1;
     this.ratio1 = 1;
     this.probabilityBS2 = probabilityBS2;
+    this.color1 = "rgba(255, 255, 0, 0.9)";
+    this.color2 = "rgba(255, 255, 0, 0.9)";
   }
 
   initialize() {
@@ -35,10 +37,26 @@ class Photon {
   }
 
   drawParticle(context) {
+    context.save();
     context.beginPath();
     context.arc(this.posX, this.posY0, this.radius * this.ratio0, 0, 2 * Math.PI);
+    context.fillStyle = this.color1;
+    context.fill();
+    context.fillStyle = this.color2;
+    context.beginPath();
     context.arc(this.posX, this.posY1, this.radius * this.ratio1, 0, 2 * Math.PI);
     context.fill();
+    context.restore();
+  }
+  drawEntanglement(context, width) {
+    context.save();
+    context.beginPath(); 
+    context.moveTo(this.posX, this.posY0);
+    context.lineTo(this.posX, this.posY1);
+    context.strokeStyle = this.color1;
+    context.lineWidth=width;
+    context.stroke();
+    context.restore();
   }
 
   move(detector, mirror, bs1, bs2, probability) {
@@ -66,10 +84,10 @@ class Photon {
     if (this.posX === bs2.posX) {
       // this come from upper side
       this.speedY0 *= -1;
-      this.ratio0 = probability;
+      this.ratio0 = (probability)**2;
       // this come from lower side
       this.speedY1 *= -1;
-      this.ratio1 = 1 - probability;
+      this.ratio1 = (1 - probability)**2;
     }
   }
 }

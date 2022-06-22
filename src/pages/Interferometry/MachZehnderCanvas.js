@@ -54,9 +54,6 @@ function MachZehnderCanvas({
     const ctx = cvs.current.getContext("2d");
     ctx.clearRect(0, 0, width, height);
 
-    // show the MachZehnder Equipment
-    equipment.draw(ctx, angle);
-
     // Photon Animation
     photonArray.forEach((photon) => equipment.fire(ctx, photon, photonFire, probability));
     if (equipment.counts === shots) {
@@ -75,8 +72,9 @@ function MachZehnderCanvas({
       ctx.fillText((angle*0.1+1).toFixed(1), 990, 315);
       ctx.fillText((angle*0.1+1).toFixed(1), 990, 275);
     }
+    // show the MachZehnder Equipment
+    equipment.draw(ctx, angle);
     
-
     //  theoretical probability to click detector
     ctx.font = "40px Arial";
     ctx.textAlign = "center";

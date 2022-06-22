@@ -117,7 +117,11 @@ class MachZehnderEquipment {
       // decide position of photon
       photon.move(this.detector0, this.mirror0, this.bs1, this.bs2, probability);
       photon.drawParticle(context);
-
+      if ((probability>0)&&(probability<1)||(photon.posX<this.bs2.posX)){
+        photon.drawEntanglement(context, 5);
+      }
+      
+      
       if (photon.posX > this.detector0.posX) {
         if (probability > photon.probabilityBS2) { // click on D0
           // click effect on D0
