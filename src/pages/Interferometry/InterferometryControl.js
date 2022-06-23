@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 function InterferometryControl({
   countStatus,
@@ -100,5 +101,20 @@ function InterferometryControl({
     </div>
   );
 }
+
+InterferometryControl.propTypes = {
+  countStatus: PropTypes.string.isRequired,
+  fire: PropTypes.bool.isRequired,
+  setFirePhoton: PropTypes.func.isRequired,
+  handleResetCounts: PropTypes.func.isRequired,
+  handleShowOperators: PropTypes.func.isRequired,
+  showOperators: PropTypes.bool.isRequired,
+  handleShowStateVectors: PropTypes.func.isRequired,
+  showStateVectors: PropTypes.bool.isRequired,
+  angle: PropTypes.number.isRequired,
+  handleSliderChange: PropTypes.func.isRequired,
+  shots: PropTypes.number.isRequired,
+  handleNumberOfShots: PropTypes.func.isRequired,
+};
 
 export default InterferometryControl;

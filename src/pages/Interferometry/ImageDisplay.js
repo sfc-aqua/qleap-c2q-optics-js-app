@@ -31,6 +31,7 @@ function ImageDisplay({
 
 ImageDisplay.propTypes = {
   source: PropTypes.string.isRequired,
+  alt: PropTypes.string,
   x: PropTypes.number,
   y: PropTypes.number,
   background: PropTypes.string,
@@ -40,6 +41,7 @@ ImageDisplay.propTypes = {
 };
 
 ImageDisplay.defaultProps = {
+  alt: "",
   x: 0,
   y: 0,
   show: false,
