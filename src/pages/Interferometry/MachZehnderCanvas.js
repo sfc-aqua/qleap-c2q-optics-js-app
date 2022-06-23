@@ -40,7 +40,7 @@ const d1Probability = ["0", "2", "10", "21", "35", "50", "65", "79", "90", "98",
 function MachZehnderCanvas({
   size: { width, height },
   photonFire, setFirePhoton,
-  shots, angle, showSample,
+  shots, angle,
   setCountStatus,
   resetCounts, setResetCounts,
 }) {
@@ -53,9 +53,6 @@ function MachZehnderCanvas({
     const ctx = cvs.current.getContext("2d");
     ctx.clearRect(0, 0, width, height);
 
-    // show the MachZehnder Equipment
-    equipment.draw(ctx, angle, showSample);
-
     // Photon Animation
     photonArray.forEach((photon) => equipment.fire(ctx, photon, photonFire, probability));
     if (equipment.counts === shots) {
@@ -63,24 +60,36 @@ function MachZehnderCanvas({
       equipment.counts = 0;
     }
 
+    // show the MachZehnder Equipment
+    equipment.draw(ctx, angle);
+
     //  theoretical probability to click detector
+    ctx.save();
     ctx.font = "40px Arial";
+    ctx.fillStyle = "#ffffff";
     ctx.textAlign = "center";
-    ctx.strokeText(`${d0Probability[angle]}%`, equipment.detector0.posX + 110, equipment.detector0.posY);
-    ctx.strokeText(`${d1Probability[angle]}%`, equipment.detector1.posX + 110, equipment.detector1.posY);
+    ctx.fillText(`${d0Probability[angle]}%`, equipment.detector0.posX + 110, equipment.detector0.posY);
+    ctx.fillText(`${d1Probability[angle]}%`, equipment.detector1.posX + 110, equipment.detector1.posY);
+    ctx.restore();
 
     // show counts of clicked detector as a discrete probability distribution
+    ctx.save();
+    ctx.font = "40px Arial";
+    ctx.fillStyle = "#dfe3ee";
+    ctx.strokeStyle = "#ffffff";
+    ctx.textAlign = "center";
     ctx.strokeRect(1300, 50, -210, 500);
     const widthRatio = 200 / shots;
     ctx.strokeRect(1300, 150, -equipment.countsD0 * widthRatio, 50);
     ctx.strokeRect(1300, 400, -equipment.countsD1 * widthRatio, 50);
-    ctx.font = "40px Arial";
-    ctx.textAlign = "center";
+    ctx.fillRect(1300, 150, -equipment.countsD0 * widthRatio, 50);
+    ctx.fillRect(1300, 400, -equipment.countsD1 * widthRatio, 50);
+    ctx.fillStyle = "#ffffff";
     ctx.fillText(equipment.countsD0, 1250, 250);
     ctx.fillText(equipment.countsD1, 1250, 500);
     ctx.fillText("D0", 1350, 200);
     ctx.fillText("D1", 1350, 450);
-
+    ctx.restore();
     // disable photon fire button when counts is not empty
     if (equipment.countsD0 > 1) {
       setCountStatus("counted");
@@ -113,7 +122,6 @@ MachZehnderCanvas.propTypes = {
   setFirePhoton: PropTypes.func.isRequired,
   shots: PropTypes.number.isRequired,
   angle: PropTypes.number.isRequired,
-  showSample: PropTypes.bool.isRequired,
   setCountStatus: PropTypes.func.isRequired,
   resetCounts: PropTypes.bool.isRequired,
   setResetCounts: PropTypes.func.isRequired,

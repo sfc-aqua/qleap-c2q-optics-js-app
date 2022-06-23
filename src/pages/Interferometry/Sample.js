@@ -23,7 +23,11 @@ class Sample {
       (bs1.posX + mirror1.posX) / 2 - this.width + diff - 10,
       (bs1.posY + mirror1.posY) / 2 + this.width - diff + 10,
     );
+    context.save();
+    context.fillStyle = "rgba(223,227,238, 0.7)";
     context.stroke();
+    context.fill();
+    context.restore();
   }
 }
 

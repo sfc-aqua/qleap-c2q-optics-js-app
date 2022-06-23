@@ -4,6 +4,8 @@ import Sample from "./Sample";
 
 // show path of photon
 const drawThePhotonPath = (context, originObj, destinationObj, lineWidth = 1) => {
+  context.save();
+  context.strokeStyle = "#8b9dc3";
   context.beginPath();
   context.lineWidth = 5;
   context.setLineDash([10, 5]);
@@ -12,6 +14,7 @@ const drawThePhotonPath = (context, originObj, destinationObj, lineWidth = 1) =>
   context.stroke();
   context.lineWidth = lineWidth;
   context.setLineDash([]);
+  context.restore();
 };
 
 class MachZehnderEquipment {
@@ -92,7 +95,7 @@ class MachZehnderEquipment {
     this.sample = new Sample(60, 40);
   }
 
-  draw(context, angle, showSample) {
+  draw(context, angle) {
     // show objects
     this.source.draw(context);
     this.bs1.draw(context);
@@ -101,10 +104,7 @@ class MachZehnderEquipment {
     this.mirror1.draw(context);
     this.detector0.draw(context);
     this.detector1.draw(context);
-
-    if (showSample) {
-      this.sample.draw(context, angle, this.bs1, this.mirror1);
-    }
+    this.sample.draw(context, angle, this.bs1, this.mirror1);
 
     drawThePhotonPath(context, this.source, this.bs1);
     drawThePhotonPath(context, this.bs1, this.mirror0);
@@ -120,20 +120,27 @@ class MachZehnderEquipment {
       // decide position of photon
       photon.move(this.detector0, this.mirror0, this.bs1, this.bs2, probability);
       photon.drawParticle(context);
+      if (((probability > 0) && (probability < 1)) || (photon.posX < this.bs2.posX)) {
+        photon.drawEntanglement(context, 5);
+      }
 
       if (photon.posX > this.detector0.posX) {
         if (probability > photon.probabilityBS2) { // click on D0
           // click effect on D0
+          context.save();
+          context.fillStyle = "#f7f7f7";
           context.fillRect(this.detector0.posX - 60, this.detector0.posY, 30, 5);
           context.fillRect(this.detector0.posX, this.detector0.posY + 30, 5, 30);
-
+          context.restore();
           // count up D0 counts
           this.countsD0 += 1;
         } else { // click on D1
           // click effect on D1
+          context.save();
+          context.fillStyle = "#f7f7f7";
           context.fillRect(this.detector1.posX - 60, this.detector1.posY, 30, 5);
           context.fillRect(this.detector1.posX, this.detector1.posY - 60, 5, 30);
-
+          context.restore();
           // count up D1 counts
           this.countsD1 += 1;
         }

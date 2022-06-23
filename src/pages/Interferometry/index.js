@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import AngleSlider from "./AngleSlider";
 import MachZehnderCanvas from "./MachZehnderCanvas";
+import InterferometryControl from "./InterferometryControl";
+import ImageDisplay from "./ImageDisplay";
 import bs1Img from "./BS1.png";
 import bs2Img from "./BS2.png";
 import sampleImg from "./sampleImg.png";
@@ -28,23 +29,12 @@ function Interferometry() {
   const [angle, setAngle] = useState(0);
   const handleSliderChange = (e) => {
     setAngle(Number(e.target.value));
-    setResetCounts(true);
-    setFire(false);
-  };
-
-  // show sample
-  const [showSample, setShowSample] = useState(false);
-  const handleShowSample = () => {
-    setShowSample(!showSample);
-    setResetCounts(true);
-    setFire(false);
   };
 
   // user input for number of photon shots
   const [shots, setShots] = useState(1);
   const handleNumberOfShots = (e) => {
     setShots(Number(e.target.value));
-    setFire(false);
   };
 
   const [showOperators, setShowOperators] = useState(false);
@@ -57,121 +47,70 @@ function Interferometry() {
     <div>
       <h1>Interferometry</h1>
       <div className="refractionInput" />
-      <div className="canvas-wrapper">
+      <div
+        className="canvas-wrapper"
+        style={{
+          backgroundColor: "#3b5998",
+        }}
+      >
         <MachZehnderCanvas
           size={{ width: 1400, height: 600 }}
           photonFire={fire}
           setFirePhoton={setFirePhoton}
           shots={shots}
           angle={angle}
-          showSample={showSample}
           setCountStatus={setCountStatus}
           resetCounts={resetCounts}
           setResetCounts={setResetCounts}
         />
         <div className="display-png">
-          <img
-            src={bs1Img}
-            alt="Operator of BS1"
-            style={{
-              position: "absolute", top: 140, left: 210, display: showOperators ? "" : "none",
-            }}
-            height="60"
-          />
-          <img
-            src={bs2Img}
-            alt="Operator of BS2"
-            style={{
-              position: "absolute", top: 140, left: 610, display: showOperators ? "" : "none",
-            }}
-            height="60"
-          />
-          <img
-            src={sampleImg}
-            alt="Operator of Sample"
-            style={{
-              position: "absolute", top: 500, left: 200, display: showOperators ? "" : "none",
-            }}
-            height="60"
-          />
-          <img
-            src={statevectorLeft}
-            alt="Initial State vector"
-            style={{
-              position: "absolute", top: 260, left: 100, display: showStateVectors ? "" : "none",
-            }}
-            height="80"
-          />
-          <img
-            src={statevectorMiddle}
-            alt="state vector after BS0"
-            style={{
-              position: "absolute", top: 260, left: 400, display: showStateVectors ? "" : "none",
-            }}
-            height="80"
-          />
-          <img
-            src={statevectorRight}
-            alt="state vector after BS1"
-            sizes="100px"
-            style={{
-              position: "absolute", top: 260, left: 800, display: showStateVectors ? "" : "none",
-            }}
-            height="80"
-          />
+          <ImageDisplay source={bs1Img} x={210} y={140} show={showOperators} />
+          <ImageDisplay source={bs2Img} x={610} y={140} show={showOperators} />
+          <ImageDisplay source={sampleImg} x={200} y={500} show={showOperators} />
+          <div style={{
+            position: "absolute", top: 537, left: 340, display: showOperators ? "" : "none",
+          }}
+          >
+            {(radian).toFixed(1)}
+          </div>
+          <ImageDisplay source={statevectorLeft} x={100} y={260} height={80} show={showStateVectors} />
+          <ImageDisplay source={statevectorMiddle} x={400} y={260} height={80} show={showStateVectors} />
+          <div style={{
+            position: "absolute", top: 310, left: 535, display: showStateVectors ? "" : "none",
+          }}
+          >
+            {(radian + 1).toFixed(1)}
+          </div>
+          <ImageDisplay source={statevectorRight} x={800} y={260} height={80} show={showStateVectors} />
+          <div style={{
+            position: "absolute", top: 275, left: 990, display: showStateVectors ? "" : "none",
+          }}
+          >
+            {(radian + 1).toFixed(1)}
+          </div>
+          <div style={{
+            position: "absolute", top: 310, left: 990, display: showStateVectors ? "" : "none",
+          }}
+          >
+            {(radian + 1).toFixed(1)}
+          </div>
         </div>
       </div>
 
-      <div className="control-plane">
-        <button
-          type="button"
-          disabled={countStatus !== "empty"}
-          onClick={setFirePhoton}
-        >
-          Fire
-        </button>
-        <button
-          type="button"
-          disabled={countStatus === "empty"}
-          onClick={handleResetCounts}
-        >
-          Reset counts
-        </button>
-        <button
-          type="button"
-          onClick={handleShowOperators}
-        >
-          {showOperators ? "Hide" : "Show"}
-          {" "}
-          Operators
-        </button>
-        <button
-          type="button"
-          onClick={handleShowStateVectors}
-        >
-          {showStateVectors ? "Hide" : "Show"}
-          {" "}
-          State vectors
-        </button>
-        <div>
-          <button type="button" onClick={handleShowSample}>
-            {showSample ? "Hide" : "Show"}
-            {" "}
-            Sample
-          </button>
-          <AngleSlider angle={angle} onChange={handleSliderChange} />
-          {radian.toFixed(1)}
-        </div>
-        <div>
-          <select onChange={handleNumberOfShots}>
-            <option value="1">1</option>
-            <option value="10">10</option>
-            <option value="100">100</option>
-            <option value="1000">1000</option>
-          </select>
-          {shots}
-        </div>
-      </div>
+      <InterferometryControl
+        countStatus={countStatus}
+        fire={fire}
+        setFirePhoton={setFirePhoton}
+        handleResetCounts={handleResetCounts}
+        handleShowOperators={handleShowOperators}
+        showOperators={showOperators}
+        handleShowStateVectors={handleShowStateVectors}
+        showStateVectors={showStateVectors}
+        angle={angle}
+        handleSliderChange={handleSliderChange}
+        shots={shots}
+        handleNumberOfShots={handleNumberOfShots}
+      />
       <style jsx>
         {`
           .canvas-wrapper {
